@@ -1,0 +1,76 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #090b12;
+  color: #f4f7fb;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: radial-gradient(circle at top left, #1b3869 0, transparent 34rem), #090b12; }
+button, select, input { font: inherit; }
+button { border: 0; cursor: pointer; }
+
+.shell { width: min(1100px, calc(100% - 32px)); margin: 0 auto; padding: 48px 0; }
+.hero { padding: 40px; border: 1px solid rgba(255,255,255,.12); border-radius: 28px; background: rgba(12,17,30,.72); box-shadow: 0 24px 90px rgba(0,0,0,.35); }
+.eyebrow { margin: 0 0 12px; color: #91c5ff; text-transform: uppercase; letter-spacing: .12em; font-size: 13px; }
+h1 { margin: 0; font-size: clamp(44px, 8vw, 92px); letter-spacing: -0.07em; }
+.lead { max-width: 720px; color: #b9c6d9; font-size: 19px; line-height: 1.65; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.primary, .ghost { padding: 14px 18px; border-radius: 16px; font-weight: 800; }
+.primary { background: #77ffba; color: #06110c; }
+.ghost { background: rgba(255,255,255,.1); color: #f4f7fb; }
+.hidden { display: none !important; }
+.status { color: #8fe0b5; min-height: 24px; }
+.controls, .monitor-card { margin-top: 18px; display: grid; gap: 18px; border: 1px solid rgba(255,255,255,.1); border-radius: 24px; background: rgba(255,255,255,.055); padding: 22px; }
+.controls { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+label { display: grid; gap: 10px; color: #cfd9e8; }
+select { color: #f4f7fb; background: #151b2a; border: 1px solid rgba(255,255,255,.16); border-radius: 14px; padding: 12px; }
+input[type="range"] { accent-color: #77ffba; }
+.monitor-card { grid-template-columns: 1.1fr .9fr; align-items: center; }
+.camera-wrap { position: relative; min-height: 320px; border-radius: 22px; overflow: hidden; background: #04070c; border: 1px solid rgba(255,255,255,.11); }
+video, canvas { width: 100%; height: 100%; object-fit: cover; display: block; }
+video { min-height: 320px; transform: scaleX(-1); opacity: .72; }
+canvas { position: absolute; inset: auto 16px 16px auto; width: 160px; height: 90px; border: 1px solid rgba(255,255,255,.18); border-radius: 12px; opacity: .82; }
+.badge { position: absolute; top: 16px; left: 16px; padding: 10px 12px; border-radius: 999px; background: rgba(10,13,20,.78); color: #d7e4f5; border: 1px solid rgba(255,255,255,.12); }
+.badge.hot { background: rgba(255,88,88,.9); color: #fff; }
+.notes { color: #c8d4e6; line-height: 1.8; }
+kbd { background: rgba(255,255,255,.13); border: 1px solid rgba(255,255,255,.2); border-radius: 6px; padding: 2px 6px; }
+
+.cover { position: fixed; inset: 0; background: #f6f8fb; color: #172033; z-index: 10; overflow: auto; }
+.cover-topbar { height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 0 22px; background: #fff; border-bottom: 1px solid #dce3ee; color: #58667b; font-size: 14px; }
+.cover-topbar button { background: #eef3fb; color: #253046; border-radius: 10px; padding: 8px 12px; }
+.cover-content { max-width: 1180px; margin: 0 auto; padding: 34px 24px 70px; }
+.report-title { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; border-bottom: 2px solid #172033; padding-bottom: 24px; }
+.report-title h2 { margin: 0; font-size: clamp(34px, 5vw, 64px); letter-spacing: -0.05em; }
+.pill { display: inline-flex; background: #112b5c; color: white; border-radius: 999px; padding: 8px 12px; font-weight: 800; }
+.metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 26px 0; }
+.metric, .doc-card { background: #fff; border: 1px solid #dce3ee; border-radius: 18px; padding: 20px; box-shadow: 0 16px 40px rgba(38,54,84,.08); }
+.metric strong { display: block; font-size: 34px; margin-top: 8px; }
+.grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 18px; }
+.chart { height: 260px; display: flex; align-items: end; gap: 12px; border-bottom: 1px solid #bac5d6; padding: 18px 8px 0; }
+.bar { flex: 1; border-radius: 10px 10px 0 0; background: linear-gradient(#4787ff, #9bc0ff); min-height: 22px; animation: grow .8s ease-out both; }
+@keyframes grow { from { transform: scaleY(.2); transform-origin: bottom; opacity: .4; } }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 16px; overflow: hidden; }
+th, td { text-align: left; border-bottom: 1px solid #e1e7f0; padding: 14px; }
+th { background: #eef3fb; color: #4a5a72; }
+.fake-toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; color: #5f6f86; }
+.fake-toolbar span { width: 12px; height: 12px; border-radius: 50%; background: #d8e1ef; }
+.fake-toolbar strong { margin-left: 8px; color: #253046; }
+.doc-page { width: min(820px, 100%); min-height: 720px; margin: 0 auto; padding: 64px 72px; background: #fff; border: 1px solid #dce3ee; box-shadow: 0 24px 70px rgba(38,54,84,.14); line-height: 1.85; }
+.doc-page h2 { margin-top: 0; font-size: 42px; letter-spacing: -0.04em; }
+.muted { color: #6c7a91; }
+.sheet-shell { background: #fff; border: 1px solid #dce3ee; border-radius: 18px; overflow: hidden; box-shadow: 0 24px 70px rgba(38,54,84,.12); }
+.sheet-title { padding: 18px 22px; background: #edf6ef; color: #24643b; font-weight: 900; border-bottom: 1px solid #cfe4d5; }
+.sheet-grid { display: grid; grid-template-columns: 1.4fr .8fr .8fr; }
+.sheet-grid > div { padding: 16px 18px; border-right: 1px solid #e2e8f1; border-bottom: 1px solid #e2e8f1; min-height: 54px; }
+.sheet-head { background: #f4f7fb; color: #506176; font-weight: 800; }
+.code-editor { background: #101624; color: #dbe7ff; border-radius: 18px; overflow: hidden; border: 1px solid #27344d; box-shadow: 0 24px 70px rgba(0,0,0,.25); }
+.code-title { padding: 14px 18px; background: #182238; color: #91c5ff; border-bottom: 1px solid #27344d; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.code-editor pre { margin: 0; padding: 26px; font: 16px/1.8 ui-monospace, SFMono-Regular, Menlo, monospace; }
+.code-editor span { display: block; }
+
+@media (max-width: 800px) {
+  .controls, .monitor-card, .metrics, .grid, .sheet-grid { grid-template-columns: 1fr; }
+  .hero { padding: 26px; }
+  .doc-page { padding: 34px 24px; min-height: auto; }
+}

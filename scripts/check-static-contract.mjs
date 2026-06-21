@@ -1,0 +1,25 @@
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+
+const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
+
+const packageJson = JSON.parse(read('package.json'));
+const indexHtml = read('index.html');
+const readme = read('README.md');
+const appJs = read('app.js');
+
+assert.ok(packageJson.scripts?.check, 'package.json should expose npm run check');
+assert.ok(packageJson.scripts.check.includes('check-static-contract'), 'check script should include static contract guard');
+
+for (const [name, source] of [['README.md', readme], ['index.html', indexHtml]]) {
+  assert.match(source, /로컬|Local-only|local-only/i, `${name} should state local-only operation`);
+  assert.match(source, /업로드 없음|서버 업로드 없음|서버 업로드\/저장 없음|no upload/i, `${name} should state no-upload privacy boundary`);
+}
+
+assert.doesNotMatch(indexHtml, /<script[^>]+src=["']https?:\/\//i, 'index.html should not load external scripts');
+assert.doesNotMatch(appJs, /\b(fetch|XMLHttpRequest|WebSocket|sendBeacon)\b/, 'app should not contain outbound network APIs');
+assert.doesNotMatch(appJs, /\b(eval|Function)\s*\(/, 'app should not use eval or dynamic Function');
+assert.match(appJs, /getUserMedia/, 'camera access should remain explicit and auditable');
+assert.match(appJs, /coverTemplateHtml/, 'cover templates should remain internally generated');
+
+console.log('static contract checks passed');
