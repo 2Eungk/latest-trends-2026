@@ -39,6 +39,26 @@ export function detectionStatusText(state, detail = '') {
   return statuses[state] || statuses.idle;
 }
 
+export function permissionHelpText(errorName = '') {
+  if (errorName === 'NotAllowedError' || errorName === 'PermissionDeniedError') {
+    return '카메라 권한이 막혔어요 · 주소창 카메라 아이콘에서 허용으로 바꾼 뒤 다시 보호 시작';
+  }
+  if (errorName === 'NotFoundError' || errorName === 'DevicesNotFoundError') {
+    return '사용 가능한 카메라를 못 찾았어요 · 노트북/웹캠 연결을 확인하세요';
+  }
+  return '카메라 시작 전 비상 전환 테스트로 위장 화면부터 확인하세요';
+}
+
+export function tuningTipForPreset(preset) {
+  const tips = {
+    full: '처음 튜닝은 전체 화면으로 점수 변화를 확인하세요',
+    back: '뒤쪽 사람만 잡고 싶으면 상단/뒤쪽 배경 + 기준 16~24%부터 시작하세요',
+    right: '오른쪽 통로가 문제면 오른쪽 복도 영역으로 좁혀 오작동을 줄이세요',
+    left: '왼쪽 통로가 문제면 왼쪽 복도 영역으로 좁혀 오작동을 줄이세요'
+  };
+  return tips[preset] || tips.full;
+}
+
 export function roiRectForPreset(preset, width, height) {
   const w = Math.max(0, Math.floor(width));
   const h = Math.max(0, Math.floor(height));
@@ -143,6 +163,8 @@ function initApp() {
   const motionBadge = document.querySelector('#motionBadge');
   const scoreLabel = document.querySelector('#scoreLabel');
   const scoreDetail = document.querySelector('#scoreDetail');
+  const permissionHelp = document.querySelector('#permissionHelp');
+  const tuningTip = document.querySelector('#tuningTip');
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
 
   let previousFrame = null;
@@ -202,10 +224,12 @@ function initApp() {
       video.srcObject = stream;
       await video.play();
       statusEl.textContent = detectionStatusText('armed');
+      permissionHelp.textContent = '카메라 연결됨 · 뒤에 한 번 지나가며 점수와 기준값을 맞춰보세요';
       startButton.disabled = true;
       rafId = requestAnimationFrame(tick);
     } catch (error) {
       statusEl.textContent = detectionStatusText('camera-error', error.message);
+      permissionHelp.textContent = permissionHelpText(error.name);
     }
   }
 
@@ -221,6 +245,7 @@ function initApp() {
   roiSelect.addEventListener('change', () => {
     previousFrame = null;
     motionBadge.textContent = `감지 영역: ${roiSelect.selectedOptions[0].textContent}`;
+    tuningTip.textContent = tuningTipForPreset(roiSelect.value);
   });
   startButton.addEventListener('click', startCamera);
   demoButton.addEventListener('click', () => showCover('demo'));

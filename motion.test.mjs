@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { coverTemplateHtml, detectionLevel, detectionStatusText, motionScore, roiRectForPreset, sensitivityText, shouldTriggerCover } from './app.js';
+import { coverTemplateHtml, detectionLevel, detectionStatusText, motionScore, permissionHelpText, roiRectForPreset, sensitivityText, tuningTipForPreset, shouldTriggerCover } from './app.js';
 
 const stillA = new Uint8ClampedArray([10, 10, 10, 255, 20, 20, 20, 255, 30, 30, 30, 255, 40, 40, 40, 255]);
 const stillB = new Uint8ClampedArray(stillA);
@@ -39,6 +39,15 @@ assert.equal(detectionStatusText('demo'), '비상 전환 테스트 · 업무 리
 assert.equal(detectionStatusText('restored'), '보호 중 · 원래 화면 복귀');
 assert.equal(detectionStatusText('camera-error', 'Permission denied'), '카메라 접근 실패: Permission denied');
 assert.equal(detectionStatusText('unknown'), '대기 중 · 카메라 접근 전');
+assert.equal(permissionHelpText('NotAllowedError'), '카메라 권한이 막혔어요 · 주소창 카메라 아이콘에서 허용으로 바꾼 뒤 다시 보호 시작');
+assert.equal(permissionHelpText('NotFoundError'), '사용 가능한 카메라를 못 찾았어요 · 노트북/웹캠 연결을 확인하세요');
+assert.equal(permissionHelpText('OtherError'), '카메라 시작 전 비상 전환 테스트로 위장 화면부터 확인하세요');
+
+assert.equal(tuningTipForPreset('full'), '처음 튜닝은 전체 화면으로 점수 변화를 확인하세요');
+assert.equal(tuningTipForPreset('back'), '뒤쪽 사람만 잡고 싶으면 상단/뒤쪽 배경 + 기준 16~24%부터 시작하세요');
+assert.equal(tuningTipForPreset('right'), '오른쪽 통로가 문제면 오른쪽 복도 영역으로 좁혀 오작동을 줄이세요');
+assert.equal(tuningTipForPreset('left'), '왼쪽 통로가 문제면 왼쪽 복도 영역으로 좁혀 오작동을 줄이세요');
+assert.equal(tuningTipForPreset('unknown'), '처음 튜닝은 전체 화면으로 점수 변화를 확인하세요');
 
 assert.deepEqual(roiRectForPreset('full', 160, 90), { x: 0, y: 0, width: 160, height: 90 });
 assert.deepEqual(roiRectForPreset('left', 160, 90), { x: 0, y: 0, width: 80, height: 90 });

@@ -46,6 +46,11 @@ canvas { position: absolute; inset: auto 16px 16px auto; width: 160px; height: 9
 .score-panel strong.hot { color: #ff9c9c; }
 .score-panel span { color: #c9d7ea; font-size: 14px; }
 .notes { color: #c8d4e6; line-height: 1.8; }
+.notes h2 { margin: 0 0 10px; }
+.notes h2 + ul { margin-top: 8px; }
+.help-card { margin: 10px 0; padding: 14px 16px; border-radius: 16px; background: rgba(119,255,186,.08); border: 1px solid rgba(119,255,186,.18); }
+.help-card strong { display: block; color: #77ffba; margin-bottom: 4px; }
+.help-card p { margin: 0; color: #dbe7f7; line-height: 1.55; }
 kbd { background: rgba(255,255,255,.13); border: 1px solid rgba(255,255,255,.2); border-radius: 6px; padding: 2px 6px; }
 
 .cover { position: fixed; inset: 0; background: #f6f8fb; color: #172033; z-index: 10; overflow: auto; }

@@ -24,5 +24,9 @@ assert.match(appJs, /coverTemplateHtml/, 'cover templates should remain internal
 assert.match(indexHtml, /월급 보존 중/, 'landing should include the viral salary-preservation hook');
 assert.match(indexHtml, /팀장 접근 대비/, 'landing should make the boss-detection joke obvious');
 assert.match(indexHtml, /업무 화면 준비 완료/, 'landing should communicate cover-screen readiness');
+assert.match(indexHtml, /주소창 카메라 아이콘/, 'landing should explain how to recover from blocked camera permission');
+assert.match(indexHtml, /상단\/뒤쪽 배경/, 'landing should guide users toward rear-background tuning');
+assert.match(appJs, /permissionHelpText/, 'camera permission recovery copy should be centralized');
+assert.match(appJs, /tuningTipForPreset/, 'ROI tuning help should be centralized');
 
 console.log('static contract checks passed');
