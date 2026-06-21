@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { coverTemplateHtml, detectionStatusText, motionScore, roiRectForPreset, sensitivityText, shouldTriggerCover } from './app.js';
+import { coverTemplateHtml, detectionLevel, detectionStatusText, motionScore, roiRectForPreset, sensitivityText, shouldTriggerCover } from './app.js';
 
 const stillA = new Uint8ClampedArray([10, 10, 10, 255, 20, 20, 20, 255, 30, 30, 30, 255, 40, 40, 40, 255]);
 const stillB = new Uint8ClampedArray(stillA);
@@ -12,6 +12,9 @@ assert.equal(motionScore(null, moved), 0, 'missing previous frame should be safe
 assert.equal(sensitivityText(6), '예민한 팀장 모드');
 assert.equal(sensitivityText(16), '보통 사무실 모드');
 assert.equal(sensitivityText(30), '카페/복도 둔감 모드');
+assert.deepEqual(detectionLevel(0, 16), { label: '안전', className: 'safe', detail: '조용함 · 전환 안 함' });
+assert.deepEqual(detectionLevel(10, 16), { label: '주의', className: 'warn', detail: '움직임 있음 · 감도 근접' });
+assert.deepEqual(detectionLevel(16, 16), { label: '전환', className: 'hot', detail: '임계값 도달 · 위장 화면 준비' });
 
 assert.equal(
   shouldTriggerCover({ score: 20, threshold: 16, now: 1000, lastTriggerAt: 0, cooldownMs: 1500 }),

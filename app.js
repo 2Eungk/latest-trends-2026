@@ -17,6 +17,12 @@ export function sensitivityText(value) {
   return '보통 사무실 모드';
 }
 
+export function detectionLevel(score, threshold) {
+  if (score >= threshold) return { label: '전환', className: 'hot', detail: '임계값 도달 · 위장 화면 준비' };
+  if (score >= threshold * 0.55) return { label: '주의', className: 'warn', detail: '움직임 있음 · 감도 근접' };
+  return { label: '안전', className: 'safe', detail: '조용함 · 전환 안 함' };
+}
+
 export function shouldTriggerCover({ score, threshold, now, lastTriggerAt, cooldownMs }) {
   return score >= threshold && now - lastTriggerAt >= cooldownMs;
 }
@@ -135,6 +141,8 @@ function initApp() {
   const video = document.querySelector('#video');
   const canvas = document.querySelector('#motionCanvas');
   const motionBadge = document.querySelector('#motionBadge');
+  const scoreLabel = document.querySelector('#scoreLabel');
+  const scoreDetail = document.querySelector('#scoreDetail');
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
 
   let previousFrame = null;
@@ -168,8 +176,13 @@ function initApp() {
       const score = motionScore(previousFrame, frame, 28);
       previousFrame = new Uint8ClampedArray(frame);
       const threshold = Number(sensitivity.value);
+      const level = detectionLevel(score, threshold);
       motionBadge.textContent = `움직임 ${score}%`;
-      motionBadge.classList.toggle('hot', score >= threshold);
+      motionBadge.className = `badge ${level.className}`;
+      scoreLabel.textContent = level.label;
+      scoreLabel.className = level.className;
+      scoreDetail.dataset.score = String(score);
+      scoreDetail.textContent = `점수 ${score}% · 기준 ${threshold}% · ${level.detail}`;
       if (score >= threshold) {
         const now = Date.now();
         lastMotionAt = now;
@@ -197,7 +210,13 @@ function initApp() {
   }
 
   sensitivity.addEventListener('input', () => {
-    sensitivityLabel.textContent = sensitivityText(sensitivity.value);
+    const threshold = Number(sensitivity.value);
+    sensitivityLabel.textContent = sensitivityText(threshold);
+    const currentScore = Number(scoreDetail.dataset.score || 0);
+    const level = detectionLevel(currentScore, threshold);
+    scoreLabel.textContent = level.label;
+    scoreLabel.className = level.className;
+    scoreDetail.textContent = `점수 ${currentScore}% · 기준 ${threshold}% · ${level.detail}`;
   });
   roiSelect.addEventListener('change', () => {
     previousFrame = null;
