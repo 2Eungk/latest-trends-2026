@@ -15,6 +15,10 @@ button { border: 0; cursor: pointer; }
 .eyebrow { margin: 0 0 12px; color: #91c5ff; text-transform: uppercase; letter-spacing: .12em; font-size: 13px; }
 h1 { margin: 0; font-size: clamp(44px, 8vw, 92px); letter-spacing: -0.07em; }
 .lead { max-width: 720px; color: #b9c6d9; font-size: 19px; line-height: 1.65; }
+.hero-status { display: inline-grid; gap: 4px; margin-top: 10px; padding: 16px 18px; border-radius: 18px; background: linear-gradient(135deg, rgba(119,255,186,.16), rgba(145,197,255,.12)); border: 1px solid rgba(119,255,186,.28); }
+.hero-status span { color: #77ffba; font-weight: 900; letter-spacing: .02em; }
+.hero-status strong { font-size: 22px; }
+.hero-status small { color: #aebcd1; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
 .primary, .ghost { padding: 14px 18px; border-radius: 16px; font-weight: 800; }
 .primary { background: #77ffba; color: #06110c; }

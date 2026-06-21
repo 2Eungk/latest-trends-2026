@@ -21,5 +21,8 @@ assert.doesNotMatch(appJs, /\b(fetch|XMLHttpRequest|WebSocket|sendBeacon)\b/, 'a
 assert.doesNotMatch(appJs, /\b(eval|Function)\s*\(/, 'app should not use eval or dynamic Function');
 assert.match(appJs, /getUserMedia/, 'camera access should remain explicit and auditable');
 assert.match(appJs, /coverTemplateHtml/, 'cover templates should remain internally generated');
+assert.match(indexHtml, /월급 보존 중/, 'landing should include the viral salary-preservation hook');
+assert.match(indexHtml, /팀장 접근 대비/, 'landing should make the boss-detection joke obvious');
+assert.match(indexHtml, /업무 화면 준비 완료/, 'landing should communicate cover-screen readiness');
 
 console.log('static contract checks passed');
