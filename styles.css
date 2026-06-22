@@ -83,13 +83,30 @@ th { background: #eef3fb; color: #4a5a72; }
 .sheet-grid { display: grid; grid-template-columns: 1.4fr .8fr .8fr; }
 .sheet-grid > div { padding: 16px 18px; border-right: 1px solid #e2e8f1; border-bottom: 1px solid #e2e8f1; min-height: 54px; }
 .sheet-head { background: #f4f7fb; color: #506176; font-weight: 800; }
+.notion-page { background: #fff; border: 1px solid #dce3ee; border-radius: 22px; padding: 30px; box-shadow: 0 24px 70px rgba(38,54,84,.12); }
+.notion-crumb { color: #7b8798; font-size: 14px; margin-bottom: 10px; }
+.notion-page h2, .calendar-main h2 { margin: 0; font-size: 42px; letter-spacing: -0.04em; }
+.notion-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
+.notion-board section { background: #f6f7f9; border: 1px solid #e2e6ee; border-radius: 18px; padding: 16px; }
+.notion-board h3 { margin: 0 0 12px; color: #4f5f72; }
+.notion-board article { display: grid; gap: 8px; margin-top: 10px; padding: 14px; border-radius: 14px; background: #fff; border: 1px solid #e3e8f1; box-shadow: 0 8px 24px rgba(38,54,84,.06); }
+.notion-board small { color: #778397; }
+.calendar-layout { display: grid; grid-template-columns: 240px 1fr; min-height: 520px; background: #fff; border: 1px solid #dce3ee; border-radius: 24px; overflow: hidden; box-shadow: 0 24px 70px rgba(38,54,84,.12); }
+.calendar-layout aside { display: grid; place-items: center; align-content: center; gap: 10px; background: linear-gradient(180deg, #1f4e9d, #0f2d63); color: #fff; }
+.calendar-layout aside strong { font-size: 94px; line-height: 1; letter-spacing: -0.08em; }
+.calendar-month { padding: 8px 12px; border-radius: 999px; background: rgba(255,255,255,.16); font-weight: 900; }
+.calendar-main { padding: 34px; }
+.calendar-events { display: grid; gap: 12px; margin-top: 24px; }
+.calendar-events > div { display: grid; grid-template-columns: 84px 1fr 120px; gap: 14px; align-items: center; padding: 18px; border: 1px solid #e1e7f0; border-radius: 16px; background: #f8faff; }
+.calendar-events time { color: #1f4e9d; font-weight: 900; }
+.calendar-events span { color: #6c7a91; text-align: right; }
 .code-editor { background: #101624; color: #dbe7ff; border-radius: 18px; overflow: hidden; border: 1px solid #27344d; box-shadow: 0 24px 70px rgba(0,0,0,.25); }
 .code-title { padding: 14px 18px; background: #182238; color: #91c5ff; border-bottom: 1px solid #27344d; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
 .code-editor pre { margin: 0; padding: 26px; font: 16px/1.8 ui-monospace, SFMono-Regular, Menlo, monospace; }
 .code-editor span { display: block; }
 
 @media (max-width: 800px) {
-  .controls, .monitor-card, .metrics, .grid, .sheet-grid { grid-template-columns: 1fr; }
+  .controls, .monitor-card, .metrics, .grid, .sheet-grid, .notion-board, .calendar-layout { grid-template-columns: 1fr; }
   .hero { padding: 26px; }
   .doc-page { padding: 34px 24px; min-height: auto; }
 }

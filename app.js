@@ -125,6 +125,36 @@ export function coverTemplateHtml(kind) {
       </div>
     `;
   }
+  if (kind === 'notion') {
+    const columns = [
+      ['이번 주', ['시장 리서치 업데이트', '고객 미팅 질문 정리', 'Q3 자동화 후보 선별']],
+      ['진행 중', ['운영 리포트 초안', '경쟁사 기능 맵핑', '보안 체크리스트 검토']],
+      ['검토 완료', ['회의록 배포', 'KPI 테이블 정리', '주간 공유자료 업로드']]
+    ];
+    return `
+      <section class="notion-page">
+        <div class="notion-crumb">Workspace / Strategy / 2026</div>
+        <h2>프로젝트 운영 보드</h2>
+        <p class="muted">신사업 검토와 운영 액션아이템을 한 화면에서 관리합니다.</p>
+        <div class="notion-board">
+          ${columns.map(([title, cards]) => `<section><h3>${title}</h3>${cards.map((card) => `<article>${card}<small>담당 전략기획 TF</small></article>`).join('')}</section>`).join('')}
+        </div>
+      </section>
+    `;
+  }
+  if (kind === 'calendar') {
+    const events = [['09:30', '주간 업무 싱크', '회의실 B'], ['11:00', 'AI 도입 과제 리뷰', 'Zoom'], ['14:00', '파트너 자료 점검', '전략기획'], ['16:30', '리스크/보안 체크', '문서 검토']];
+    return `
+      <section class="calendar-layout">
+        <aside><span class="calendar-month">2026.06</span><strong>21</strong><small>Sunday</small></aside>
+        <div class="calendar-main">
+          <h2>오늘의 회의 일정</h2>
+          <p class="muted">우선순위 높은 회의와 액션아이템만 표시합니다.</p>
+          <div class="calendar-events">${events.map(([time, title, place]) => `<div><time>${time}</time><strong>${title}</strong><span>${place}</span></div>`).join('')}</div>
+        </div>
+      </section>
+    `;
+  }
   if (kind === 'code') {
     return `
       <div class="code-editor">

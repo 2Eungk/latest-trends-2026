@@ -81,4 +81,14 @@ assert.ok(codeCover.includes('workspace/strategy-dashboard'), 'code cover should
 assert.ok(codeCover.includes('class="code-editor"'), 'code cover should render a code editor surface');
 assert.ok(!codeCover.includes('undefined'), 'code cover should not leak undefined');
 
+const notionCover = coverTemplateHtml('notion');
+assert.ok(notionCover.includes('프로젝트 운영 보드'), 'notion cover should render a project board title');
+assert.ok(notionCover.includes('class="notion-board"'), 'notion cover should render board columns');
+assert.ok(!notionCover.includes('undefined'), 'notion cover should not leak undefined');
+
+const calendarCover = coverTemplateHtml('calendar');
+assert.ok(calendarCover.includes('오늘의 회의 일정'), 'calendar cover should render a meeting schedule title');
+assert.ok(calendarCover.includes('class="calendar-layout"'), 'calendar cover should render a calendar surface');
+assert.ok(!calendarCover.includes('undefined'), 'calendar cover should not leak undefined');
+
 console.log('motion checks passed');
