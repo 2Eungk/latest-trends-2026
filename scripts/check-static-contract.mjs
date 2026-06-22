@@ -26,7 +26,10 @@ assert.match(indexHtml, /팀장 접근 대비/, 'landing should make the boss-de
 assert.match(indexHtml, /업무 화면 준비 완료/, 'landing should communicate cover-screen readiness');
 assert.match(indexHtml, /주소창 카메라 아이콘/, 'landing should explain how to recover from blocked camera permission');
 assert.match(indexHtml, /상단\/뒤쪽 배경/, 'landing should guide users toward rear-background tuning');
+assert.match(indexHtml, /데모 시나리오 시작/, 'landing should include a showable demo scenario button');
+assert.match(indexHtml, /demoCountdown/, 'landing should include a countdown display region');
 assert.match(appJs, /permissionHelpText/, 'camera permission recovery copy should be centralized');
 assert.match(appJs, /tuningTipForPreset/, 'ROI tuning help should be centralized');
+assert.match(appJs, /demoCountdownText/, 'demo countdown copy should be centralized');
 
 console.log('static contract checks passed');

@@ -25,6 +25,8 @@ h1 { margin: 0; font-size: clamp(44px, 8vw, 92px); letter-spacing: -0.07em; }
 .ghost { background: rgba(255,255,255,.1); color: #f4f7fb; }
 .hidden { display: none !important; }
 .status { color: #8fe0b5; min-height: 24px; }
+.demo-countdown { display: inline-flex; margin-top: 4px; padding: 12px 14px; border-radius: 16px; background: rgba(145,197,255,.11); border: 1px solid rgba(145,197,255,.22); color: #dbeaff; font-weight: 900; }
+.demo-result { margin: 10px 0 0; color: #77ffba; font-weight: 900; min-height: 24px; }
 .controls, .monitor-card { margin-top: 18px; display: grid; gap: 18px; border: 1px solid rgba(255,255,255,.1); border-radius: 24px; background: rgba(255,255,255,.055); padding: 22px; }
 .controls { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 label { display: grid; gap: 10px; color: #cfd9e8; }

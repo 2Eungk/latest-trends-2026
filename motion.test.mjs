@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { coverTemplateHtml, detectionLevel, detectionStatusText, motionScore, permissionHelpText, roiRectForPreset, sensitivityText, tuningTipForPreset, shouldTriggerCover } from './app.js';
+import { coverTemplateHtml, demoCountdownText, detectionLevel, detectionStatusText, motionScore, permissionHelpText, roiRectForPreset, sensitivityText, tuningTipForPreset, shouldTriggerCover } from './app.js';
 
 const stillA = new Uint8ClampedArray([10, 10, 10, 255, 20, 20, 20, 255, 30, 30, 30, 255, 40, 40, 40, 255]);
 const stillB = new Uint8ClampedArray(stillA);
@@ -48,6 +48,12 @@ assert.equal(tuningTipForPreset('back'), '뒤쪽 사람만 잡고 싶으면 상�
 assert.equal(tuningTipForPreset('right'), '오른쪽 통로가 문제면 오른쪽 복도 영역으로 좁혀 오작동을 줄이세요');
 assert.equal(tuningTipForPreset('left'), '왼쪽 통로가 문제면 왼쪽 복도 영역으로 좁혀 오작동을 줄이세요');
 assert.equal(tuningTipForPreset('unknown'), '처음 튜닝은 전체 화면으로 점수 변화를 확인하세요');
+
+assert.equal(demoCountdownText(3), '3 · 팀장 접근 감지 준비');
+assert.equal(demoCountdownText(2), '2 · 월급 보존 시스템 대기');
+assert.equal(demoCountdownText(1), '1 · 2026 최신동향 전환');
+assert.equal(demoCountdownText(0), '생존 성공 · 업무 화면 전환 완료');
+assert.equal(demoCountdownText(99), '데모 시나리오 대기');
 
 assert.deepEqual(roiRectForPreset('full', 160, 90), { x: 0, y: 0, width: 160, height: 90 });
 assert.deepEqual(roiRectForPreset('left', 160, 90), { x: 0, y: 0, width: 80, height: 90 });

@@ -59,6 +59,16 @@ export function tuningTipForPreset(preset) {
   return tips[preset] || tips.full;
 }
 
+export function demoCountdownText(step) {
+  const steps = {
+    3: '3 · 팀장 접근 감지 준비',
+    2: '2 · 월급 보존 시스템 대기',
+    1: '1 · 2026 최신동향 전환',
+    0: '생존 성공 · 업무 화면 전환 완료'
+  };
+  return steps[step] || '데모 시나리오 대기';
+}
+
 export function roiRectForPreset(preset, width, height) {
   const w = Math.max(0, Math.floor(width));
   const h = Math.max(0, Math.floor(height));
@@ -148,6 +158,7 @@ function initApp() {
   const app = document.querySelector('#app');
   const startButton = document.querySelector('#startButton');
   const demoButton = document.querySelector('#demoButton');
+  const scenarioDemoButton = document.querySelector('#scenarioDemoButton');
   const restoreButton = document.querySelector('#restoreButton');
   const coverExit = document.querySelector('#coverExit');
   const cover = document.querySelector('#cover');
@@ -165,6 +176,8 @@ function initApp() {
   const scoreDetail = document.querySelector('#scoreDetail');
   const permissionHelp = document.querySelector('#permissionHelp');
   const tuningTip = document.querySelector('#tuningTip');
+  const demoCountdown = document.querySelector('#demoCountdown');
+  const demoResult = document.querySelector('#demoResult');
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
 
   let previousFrame = null;
@@ -172,6 +185,9 @@ function initApp() {
   let lastMotionAt = 0;
   let lastTriggerAt = 0;
   let rafId = null;
+  let demoRunning = false;
+
+  const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   function showCover(state = 'triggered') {
     coverContent.innerHTML = coverTemplateHtml(coverSelect.value);
@@ -233,6 +249,25 @@ function initApp() {
     }
   }
 
+  async function startDemoScenario() {
+    if (demoRunning) return;
+    demoRunning = true;
+    scenarioDemoButton.disabled = true;
+    demoResult.textContent = '';
+    for (const step of [3, 2, 1]) {
+      const message = demoCountdownText(step);
+      demoCountdown.textContent = message;
+      statusEl.textContent = message;
+      await wait(1000);
+    }
+    showCover('demo');
+    const success = demoCountdownText(0);
+    demoCountdown.textContent = success;
+    demoResult.textContent = success;
+    scenarioDemoButton.disabled = false;
+    demoRunning = false;
+  }
+
   sensitivity.addEventListener('input', () => {
     const threshold = Number(sensitivity.value);
     sensitivityLabel.textContent = sensitivityText(threshold);
@@ -249,6 +284,7 @@ function initApp() {
   });
   startButton.addEventListener('click', startCamera);
   demoButton.addEventListener('click', () => showCover('demo'));
+  scenarioDemoButton.addEventListener('click', startDemoScenario);
   restoreButton.addEventListener('click', hideCover);
   coverExit.addEventListener('click', hideCover);
   coverSelect.addEventListener('change', () => {
