@@ -30,6 +30,14 @@ assert.match(indexHtml, /데모 시나리오 시작/, 'landing should include a 
 assert.match(indexHtml, /demoCountdown/, 'landing should include a countdown display region');
 assert.match(indexHtml, /Notion 프로젝트 보드/, 'cover selector should include a Notion-style board');
 assert.match(indexHtml, /캘린더\/회의 일정/, 'cover selector should include a calendar-style schedule');
+assert.match(indexHtml, /GitHub 저장소 화면/, 'cover selector should include a GitHub-style repo screen');
+assert.match(indexHtml, /통계자료 대시보드/, 'cover selector should include a statistics dashboard screen');
+assert.match(indexHtml, /Excel 통계 시트/, 'cover selector should include an Excel-style sheet screen');
+assert.match(indexHtml, /영어 논문 PDF/, 'cover selector should include an English paper screen');
+assert.match(indexHtml, /데모 찍는 법/, 'landing should include a short demo-filming guide');
+assert.match(indexHtml, /친구에게 보여줄 때/, 'landing should include friend-beta sharing copy');
+assert.match(readme, /친구에게 보내는 사용법/, 'README should include friend-beta instructions');
+assert.match(readme, /로컬 서버만 켜서 보여주기/, 'README should avoid implying public deployment by default');
 assert.match(appJs, /permissionHelpText/, 'camera permission recovery copy should be centralized');
 assert.match(appJs, /tuningTipForPreset/, 'ROI tuning help should be centralized');
 assert.match(appJs, /demoCountdownText/, 'demo countdown copy should be centralized');

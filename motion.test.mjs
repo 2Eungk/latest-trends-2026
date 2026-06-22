@@ -91,4 +91,24 @@ assert.ok(calendarCover.includes('오늘의 회의 일정'), 'calendar cover sho
 assert.ok(calendarCover.includes('class="calendar-layout"'), 'calendar cover should render a calendar surface');
 assert.ok(!calendarCover.includes('undefined'), 'calendar cover should not leak undefined');
 
+const githubCover = coverTemplateHtml('github');
+assert.ok(githubCover.includes('2026-latest-trends-shield'), 'github cover should render a repository name');
+assert.ok(githubCover.includes('class="github-repo"'), 'github cover should render a GitHub-style repo surface');
+assert.ok(!githubCover.includes('undefined'), 'github cover should not leak undefined');
+
+const statsCover = coverTemplateHtml('stats');
+assert.ok(statsCover.includes('산업 통계 대시보드'), 'stats cover should render a statistics dashboard title');
+assert.ok(statsCover.includes('class="stats-dashboard"'), 'stats cover should render dashboard cards');
+assert.ok(!statsCover.includes('undefined'), 'stats cover should not leak undefined');
+
+const excelCover = coverTemplateHtml('excel');
+assert.ok(excelCover.includes('예산_운영_통계.xlsx'), 'excel cover should render an Excel-like file name');
+assert.ok(excelCover.includes('class="excel-workbook"'), 'excel cover should render workbook grid');
+assert.ok(!excelCover.includes('undefined'), 'excel cover should not leak undefined');
+
+const paperCover = coverTemplateHtml('paper');
+assert.ok(paperCover.includes('Multimodal Workplace Automation Trends'), 'paper cover should render an English paper title');
+assert.ok(paperCover.includes('class="paper-viewer"'), 'paper cover should render a paper viewer surface');
+assert.ok(!paperCover.includes('undefined'), 'paper cover should not leak undefined');
+
 console.log('motion checks passed');

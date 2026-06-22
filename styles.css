@@ -27,6 +27,8 @@ h1 { margin: 0; font-size: clamp(44px, 8vw, 92px); letter-spacing: -0.07em; }
 .status { color: #8fe0b5; min-height: 24px; }
 .demo-countdown { display: inline-flex; margin-top: 4px; padding: 12px 14px; border-radius: 16px; background: rgba(145,197,255,.11); border: 1px solid rgba(145,197,255,.22); color: #dbeaff; font-weight: 900; }
 .demo-result { margin: 10px 0 0; color: #77ffba; font-weight: 900; min-height: 24px; }
+.share-guide { display: grid; gap: 4px; max-width: 680px; margin-top: 14px; padding: 14px 16px; border-radius: 16px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); color: #c9d7ea; }
+.share-guide strong { color: #91c5ff; }
 .controls, .monitor-card { margin-top: 18px; display: grid; gap: 18px; border: 1px solid rgba(255,255,255,.1); border-radius: 24px; background: rgba(255,255,255,.055); padding: 22px; }
 .controls { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 label { display: grid; gap: 10px; color: #cfd9e8; }
@@ -100,13 +102,45 @@ th { background: #eef3fb; color: #4a5a72; }
 .calendar-events > div { display: grid; grid-template-columns: 84px 1fr 120px; gap: 14px; align-items: center; padding: 18px; border: 1px solid #e1e7f0; border-radius: 16px; background: #f8faff; }
 .calendar-events time { color: #1f4e9d; font-weight: 900; }
 .calendar-events span { color: #6c7a91; text-align: right; }
+.github-repo { background: #fff; border: 1px solid #d0d7de; border-radius: 18px; overflow: hidden; color: #24292f; box-shadow: 0 24px 70px rgba(38,54,84,.12); }
+.github-repo header { display: flex; gap: 8px; align-items: center; padding: 18px 22px; border-bottom: 1px solid #d8dee4; }
+.github-repo header strong { color: #0969da; font-size: 24px; }
+.github-repo em { border: 1px solid #d0d7de; border-radius: 999px; padding: 3px 8px; color: #57606a; font-style: normal; font-size: 12px; }
+.github-repo nav { display: flex; gap: 22px; padding: 14px 22px; border-bottom: 1px solid #d8dee4; background: #f6f8fa; }
+.github-repo nav b { border-bottom: 2px solid #fd8c73; padding-bottom: 12px; }
+.repo-summary { margin: 22px; padding: 18px; border: 1px solid #d8dee4; border-radius: 12px; background: #f6f8fa; }
+.repo-files { margin: 22px; border: 1px solid #d8dee4; border-radius: 12px; overflow: hidden; }
+.repo-files div { display: flex; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid #d8dee4; }
+.repo-files div:last-child { border-bottom: 0; }
+.repo-files small { color: #57606a; }
+.stats-dashboard { background: #0f172a; color: #e5eefc; border-radius: 24px; padding: 30px; box-shadow: 0 24px 70px rgba(15,23,42,.22); }
+.stats-dashboard h2 { margin: 0; font-size: 44px; letter-spacing: -0.05em; }
+.stats-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 24px 0; }
+.stats-cards article { padding: 18px; border-radius: 18px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); }
+.stats-cards strong { display: block; color: #77ffba; font-size: 32px; }
+.stats-cards span { color: #cbd5e1; }
+.stats-bars { height: 260px; display: flex; align-items: end; gap: 14px; padding: 20px; border-radius: 18px; background: rgba(255,255,255,.06); }
+.stats-bars i { flex: 1; min-height: 24px; border-radius: 12px 12px 0 0; background: linear-gradient(#77ffba, #3b82f6); }
+.excel-workbook { background: #fff; border: 1px solid #c8d7cc; border-radius: 18px; overflow: hidden; box-shadow: 0 24px 70px rgba(38,84,54,.12); }
+.excel-title { padding: 14px 18px; background: #107c41; color: white; font-weight: 900; }
+.excel-ribbon { padding: 12px 18px; background: #f3faf5; color: #236b3a; border-bottom: 1px solid #d9eadf; word-spacing: 18px; }
+.excel-grid { display: grid; grid-template-columns: 60px 1.3fr repeat(4, .8fr); }
+.excel-grid > div { padding: 14px 16px; min-height: 52px; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; }
+.excel-grid > div:nth-child(-n+6) { background: #eef7f0; font-weight: 900; color: #236b3a; }
+.paper-viewer { max-width: 860px; min-height: 720px; margin: 0 auto; padding: 58px 70px; background: #fff; border: 1px solid #dce3ee; box-shadow: 0 24px 70px rgba(38,54,84,.14); color: #1d2533; line-height: 1.75; }
+.paper-viewer header { display: flex; justify-content: space-between; color: #6b7280; border-bottom: 1px solid #d6dce6; padding-bottom: 14px; }
+.paper-viewer header strong { color: #b91c1c; }
+.paper-viewer h2 { font-family: Georgia, 'Times New Roman', serif; font-size: 40px; line-height: 1.1; letter-spacing: -0.03em; }
+.paper-authors { color: #4b5563; font-style: italic; }
 .code-editor { background: #101624; color: #dbe7ff; border-radius: 18px; overflow: hidden; border: 1px solid #27344d; box-shadow: 0 24px 70px rgba(0,0,0,.25); }
 .code-title { padding: 14px 18px; background: #182238; color: #91c5ff; border-bottom: 1px solid #27344d; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
 .code-editor pre { margin: 0; padding: 26px; font: 16px/1.8 ui-monospace, SFMono-Regular, Menlo, monospace; }
 .code-editor span { display: block; }
 
 @media (max-width: 800px) {
-  .controls, .monitor-card, .metrics, .grid, .sheet-grid, .notion-board, .calendar-layout { grid-template-columns: 1fr; }
+  .controls, .monitor-card, .metrics, .grid, .sheet-grid, .notion-board, .calendar-layout, .stats-cards, .excel-grid, .calendar-events > div { grid-template-columns: 1fr; }
   .hero { padding: 26px; }
-  .doc-page { padding: 34px 24px; min-height: auto; }
+  .doc-page, .paper-viewer { padding: 34px 24px; min-height: auto; }
+  .github-repo nav { flex-wrap: wrap; }
+  .calendar-events span { text-align: left; }
 }

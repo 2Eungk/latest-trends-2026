@@ -155,6 +155,51 @@ export function coverTemplateHtml(kind) {
       </section>
     `;
   }
+  if (kind === 'github') {
+    const files = ['README.md', 'app.js', 'scripts/check-static-contract.mjs', 'docs/external-code-intake.md'];
+    return `
+      <section class="github-repo">
+        <header><span>eung</span><strong>2026-latest-trends-shield</strong><em>Private</em></header>
+        <nav><b>Code</b><span>Issues</span><span>Pull requests</span><span>Actions</span><span>Security</span></nav>
+        <div class="repo-summary"><strong>Local-only webcam privacy shield</strong><p>No upload · no face recognition · browser-only motion detection</p></div>
+        <div class="repo-files">${files.map((file) => `<div><span>${file}</span><small>updated just now</small></div>`).join('')}</div>
+      </section>
+    `;
+  }
+  if (kind === 'stats') {
+    const cards = [['72.4%', '업무 자동화 도입률'], ['18.6%', '연간 생산성 개선'], ['4.8x', '리포트 처리 속도'], ['31개', '관찰 산업군']];
+    return `
+      <section class="stats-dashboard">
+        <h2>산업 통계 대시보드</h2>
+        <p class="muted">2026 업무 자동화/AI 생산성 지표 요약</p>
+        <div class="stats-cards">${cards.map(([n, l]) => `<article><strong>${n}</strong><span>${l}</span></article>`).join('')}</div>
+        <div class="stats-bars">${[64, 82, 53, 91, 76, 68].map((h) => `<i style="height:${h}%"></i>`).join('')}</div>
+      </section>
+    `;
+  }
+  if (kind === 'excel') {
+    const rows = [['A', '항목', 'Q1', 'Q2', 'Q3', '상태'], ['1', '운영비', '42.1', '39.8', '37.6', '개선'], ['2', '자동화율', '51%', '64%', '72%', '상승'], ['3', '처리시간', '8.4h', '6.1h', '4.9h', '단축']];
+    return `
+      <section class="excel-workbook">
+        <div class="excel-title">예산_운영_통계.xlsx</div>
+        <div class="excel-ribbon">파일 홈 삽입 데이터 검토 보기 자동화</div>
+        <div class="excel-grid">${rows.flatMap((row) => row.map((cell) => `<div>${cell}</div>`)).join('')}</div>
+      </section>
+    `;
+  }
+  if (kind === 'paper') {
+    return `
+      <article class="paper-viewer">
+        <header><span>arXiv-style preprint review</span><strong>PDF</strong></header>
+        <h2>Multimodal Workplace Automation Trends in 2026</h2>
+        <p class="paper-authors">J. Kim, S. Park, and Strategy Intelligence Lab</p>
+        <h3>Abstract</h3>
+        <p>We analyze enterprise adoption patterns across multimodal AI workflows, focusing on privacy-preserving deployment, local inference, and productivity measurement.</p>
+        <h3>Keywords</h3>
+        <p>workflow automation · local-first systems · productivity analytics · privacy shield</p>
+      </article>
+    `;
+  }
   if (kind === 'code') {
     return `
       <div class="code-editor">
