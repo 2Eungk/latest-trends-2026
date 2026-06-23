@@ -46,7 +46,7 @@ assert.match(indexHtml, /calibrationResult/, 'landing should include a calibrati
 assert.match(appJs, /localStorage/, 'app should persist settings in browser localStorage');
 assert.match(appJs, /SETTINGS_STORAGE_KEY/, 'app should use a named settings storage key');
 assert.match(readme, /친구에게 보내는 사용법/, 'README should include friend-beta instructions');
-assert.match(readme, /로컬 서버만 켜서 보여주기/, 'README should avoid implying public deployment by default');
+assert.match(readme, /직접 로컬 서버로 열기|로컬 서버만 켜서 보여주기/, 'README should avoid implying public deployment by default');
 assert.match(readme, /실제 자료 URL 모드/, 'README should document the external URL mode');
 assert.match(readme, /https:\/\//, 'README should document HTTPS-only URL safety');
 assert.match(appJs, /permissionHelpText/, 'camera permission recovery copy should be centralized');

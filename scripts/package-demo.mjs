@@ -11,7 +11,9 @@ const files = [
   'index.html',
   'app.js',
   'styles.css',
-  'README.md'
+  'README.md',
+  'start.command',
+  'start.bat'
 ];
 
 rmSync(packageDir, { recursive: true, force: true });

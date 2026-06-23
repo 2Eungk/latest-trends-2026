@@ -67,9 +67,15 @@ npm run package
 
 생성물: `dist/latest-trends-2026-demo.zip`
 
-친구는 압축을 풀고 해당 폴더에서 아래 로컬 서버 명령만 실행하면 됨.
+친구는 압축을 풀고 운영체제에 맞는 시작 파일을 더블클릭하면 됨.
 
-### 로컬 서버만 켜서 보여주기
+- Mac: `start.command` 더블클릭
+- Windows: `start.bat` 더블클릭
+
+브라우저가 자동으로 열리면 카메라 권한을 허용하고 `보호 시작`을 누르기.
+Python이 없다는 안내가 나오면 `https://www.python.org/downloads/`에서 설치 후 다시 실행.
+
+### 직접 로컬 서버로 열기
 
 1. 터미널에서 `python3 -m http.server 4180 --bind 127.0.0.1` 실행.
 2. 브라우저로 `http://127.0.0.1:4180` 접속.

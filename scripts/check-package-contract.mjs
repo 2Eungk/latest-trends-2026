@@ -14,7 +14,13 @@ assert.match(packageScript, /index\.html/, 'packager should include index.html')
 assert.match(packageScript, /app\.js/, 'packager should include app.js');
 assert.match(packageScript, /styles\.css/, 'packager should include styles.css');
 assert.match(packageScript, /README\.md/, 'packager should include README.md');
+assert.match(packageScript, /start\.command/, 'packager should include the Mac double-click launcher');
+assert.match(packageScript, /start\.bat/, 'packager should include the Windows double-click launcher');
 assert.doesNotMatch(packageScript, /node_modules|\.git/, 'packager should not include development folders');
+assert.match(read('start.command'), /open\s+"?\$\{URL\}"?|open\s+http:\/\/127\.0\.0\.1:4180/, 'Mac launcher should open the local app URL');
+assert.match(read('start.command'), /python3|python/, 'Mac launcher should try Python local server');
+assert.match(read('start.bat'), /start\s+%URL%|start\s+http:\/\/127\.0\.0\.1:4180/i, 'Windows launcher should open the local app URL');
+assert.match(read('start.bat'), /py -3|python/, 'Windows launcher should try Python local server');
 assert.match(readme, /npm run package/, 'README should document the packaging command');
 assert.match(readme, /latest-trends-2026-demo\.zip/, 'README should name the generated zip artifact');
 
