@@ -59,7 +59,17 @@ python3 -m http.server 4180 --bind 127.0.0.1
 
 ## 친구에게 보내는 사용법
 
-로컬 서버만 켜서 보여주기:
+### ZIP으로 보내기
+
+```bash
+npm run package
+```
+
+생성물: `dist/latest-trends-2026-demo.zip`
+
+친구는 압축을 풀고 해당 폴더에서 아래 로컬 서버 명령만 실행하면 됨.
+
+### 로컬 서버만 켜서 보여주기
 
 1. 터미널에서 `python3 -m http.server 4180 --bind 127.0.0.1` 실행.
 2. 브라우저로 `http://127.0.0.1:4180` 접속.
