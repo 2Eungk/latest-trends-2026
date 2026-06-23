@@ -12,6 +12,7 @@ const files = [
   'app.js',
   'styles.css',
   'README.md',
+  'QUICKSTART.md',
   'start.command',
   'start.bat'
 ];

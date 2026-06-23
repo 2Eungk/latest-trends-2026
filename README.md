@@ -67,7 +67,7 @@ npm run package
 
 생성물: `dist/latest-trends-2026-demo.zip`
 
-친구는 압축을 풀고 운영체제에 맞는 시작 파일을 더블클릭하면 됨.
+친구는 압축을 풀고 `QUICKSTART.md`를 먼저 본 뒤, 운영체제에 맞는 시작 파일을 더블클릭하면 됨.
 
 - Mac: `start.command` 더블클릭
 - Windows: `start.bat` 더블클릭
