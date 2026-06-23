@@ -34,6 +34,11 @@ assert.match(indexHtml, /GitHub 저장소 화면/, 'cover selector should includ
 assert.match(indexHtml, /통계자료 대시보드/, 'cover selector should include a statistics dashboard screen');
 assert.match(indexHtml, /Excel 통계 시트/, 'cover selector should include an Excel-style sheet screen');
 assert.match(indexHtml, /영어 논문 PDF/, 'cover selector should include an English paper screen');
+assert.match(indexHtml, /처음 쓰는 3단계/, 'landing should include first-run guidance for non-README users');
+assert.match(indexHtml, /1\. 카메라 허용/, 'first-run guide should start with camera permission');
+assert.match(indexHtml, /2\. 보호 시작/, 'first-run guide should point to the primary start button');
+assert.match(indexHtml, /3\. 데모 시나리오 시작/, 'first-run guide should point to the showable demo path');
+assert.match(indexHtml, /first-run-guide/, 'first-run guide should have a stable DOM anchor');
 assert.match(indexHtml, /데모 찍는 법/, 'landing should include a short demo-filming guide');
 assert.match(indexHtml, /친구에게 보여줄 때/, 'landing should include friend-beta sharing copy');
 assert.match(indexHtml, /지정 URL 열기/, 'landing should include custom external URL mode');
