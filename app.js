@@ -23,6 +23,16 @@ export function detectionLevel(score, threshold) {
   return { label: '안전', className: 'safe', detail: '조용함 · 전환 안 함' };
 }
 
+export function calibrationSummary(samples = []) {
+  if (!samples.length) return { average: 0, max: 0, recommended: 16, label: '캘리브레이션 대기' };
+  const numeric = samples.map(Number).filter(Number.isFinite);
+  if (!numeric.length) return { average: 0, max: 0, recommended: 16, label: '캘리브레이션 대기' };
+  const average = Math.round(numeric.reduce((sum, value) => sum + value, 0) / numeric.length);
+  const max = Math.max(...numeric);
+  const recommended = Math.min(32, Math.max(6, Math.round(Math.max(max + 4, average + 8))));
+  return { average, max, recommended, label: `추천 기준값 ${recommended}%` };
+}
+
 export function shouldTriggerCover({ score, threshold, now, lastTriggerAt, cooldownMs }) {
   return score >= threshold && now - lastTriggerAt >= cooldownMs;
 }
@@ -294,6 +304,9 @@ function initApp() {
   const urlHelp = document.querySelector('#urlHelp');
   const urlTestButton = document.querySelector('#urlTestButton');
   const settingsStatus = document.querySelector('#settingsStatus');
+  const calibrationButton = document.querySelector('#calibrationButton');
+  const applyCalibrationButton = document.querySelector('#applyCalibrationButton');
+  const calibrationResult = document.querySelector('#calibrationResult');
   const video = document.querySelector('#video');
   const canvas = document.querySelector('#motionCanvas');
   const motionBadge = document.querySelector('#motionBadge');
@@ -311,6 +324,10 @@ function initApp() {
   let lastTriggerAt = 0;
   let rafId = null;
   let demoRunning = false;
+  let calibrationActive = false;
+  let calibrationStartedAt = 0;
+  let calibrationSamples = [];
+  let lastCalibration = null;
 
   const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -416,7 +433,19 @@ function initApp() {
       scoreLabel.className = level.className;
       scoreDetail.dataset.score = String(score);
       scoreDetail.textContent = `점수 ${score}% · 기준 ${threshold}% · ${level.detail}`;
-      if (score >= threshold) {
+      if (calibrationActive) {
+        calibrationSamples.push(score);
+        const elapsed = Date.now() - calibrationStartedAt;
+        calibrationResult.textContent = `캘리브레이션 중 · ${Math.min(5, Math.ceil(elapsed / 1000))}/5초 · 현재 ${score}%`;
+        if (elapsed >= 5000) {
+          calibrationActive = false;
+          calibrationButton.disabled = false;
+          lastCalibration = calibrationSummary(calibrationSamples);
+          applyCalibrationButton.disabled = false;
+          calibrationResult.textContent = `평균 ${lastCalibration.average}% · 최고 ${lastCalibration.max}% · ${lastCalibration.label}`;
+        }
+      }
+      if (!calibrationActive && score >= threshold) {
         const now = Date.now();
         lastMotionAt = now;
         if (!coverVisible && shouldTriggerCover({ score, threshold, now, lastTriggerAt, cooldownMs: 1500 })) {
@@ -463,6 +492,23 @@ function initApp() {
     demoRunning = false;
   }
 
+  function startCalibration() {
+    calibrationActive = true;
+    calibrationStartedAt = Date.now();
+    calibrationSamples = [];
+    lastCalibration = null;
+    calibrationButton.disabled = true;
+    applyCalibrationButton.disabled = true;
+    calibrationResult.textContent = '캘리브레이션 중 · 0/5초 · 뒤에서 한 번 지나가 보세요';
+  }
+
+  function applyCalibration() {
+    if (!lastCalibration) return;
+    sensitivity.value = String(lastCalibration.recommended);
+    sensitivity.dispatchEvent(new Event('input', { bubbles: true }));
+    calibrationResult.textContent = `추천 감도 적용됨 · 기준 ${lastCalibration.recommended}%`;
+  }
+
   sensitivity.addEventListener('input', () => {
     const threshold = Number(sensitivity.value);
     sensitivityLabel.textContent = sensitivityText(threshold);
@@ -493,6 +539,8 @@ function initApp() {
     saveSettings();
   });
   urlTestButton.addEventListener('click', openExternalUrl);
+  calibrationButton.addEventListener('click', startCalibration);
+  applyCalibrationButton.addEventListener('click', applyCalibration);
   restoreButton.addEventListener('click', hideCover);
   coverExit.addEventListener('click', hideCover);
   coverSelect.addEventListener('change', () => {

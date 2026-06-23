@@ -40,6 +40,9 @@ assert.match(indexHtml, /지정 URL 열기/, 'landing should include custom exte
 assert.match(indexHtml, /https:\/\/github.com\/trending/, 'landing should include safe default external URL examples');
 assert.match(indexHtml, /urlMode/, 'landing should expose an explicit URL transition mode control');
 assert.match(indexHtml, /이 브라우저에만 저장됨/, 'landing should explain local-only settings persistence');
+assert.match(indexHtml, /5초 캘리브레이션 시작/, 'landing should include a calibration start action');
+assert.match(indexHtml, /추천 감도 적용/, 'landing should include an apply-recommended-threshold action');
+assert.match(indexHtml, /calibrationResult/, 'landing should include a calibration result status region');
 assert.match(appJs, /localStorage/, 'app should persist settings in browser localStorage');
 assert.match(appJs, /SETTINGS_STORAGE_KEY/, 'app should use a named settings storage key');
 assert.match(readme, /친구에게 보내는 사용법/, 'README should include friend-beta instructions');

@@ -114,6 +114,14 @@
             <strong>감지 영역 추천</strong>
             <p id="tuningTip">처음 튜닝은 전체 화면으로 점수 변화를 확인하세요</p>
           </div>
+          <div class="help-card calibration-card">
+            <strong>카메라 캘리브레이션</strong>
+            <p id="calibrationResult" role="status" aria-live="polite">캘리브레이션 대기 · 보호 시작 후 뒤에서 한 번 지나가 보세요</p>
+            <div class="calibration-actions">
+              <button id="calibrationButton" class="ghost" type="button">5초 캘리브레이션 시작</button>
+              <button id="applyCalibrationButton" class="ghost" type="button" disabled>추천 감도 적용</button>
+            </div>
+          </div>
           <ul>
             <li>뒤쪽만 감지하려면 <b>상단/뒤쪽 배경</b>부터 테스트</li>
             <li>오작동이 많으면 팀장 감도 기준을 24% 쪽으로 올리기</li>
