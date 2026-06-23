@@ -39,6 +39,9 @@ assert.match(indexHtml, /친구에게 보여줄 때/, 'landing should include fr
 assert.match(indexHtml, /지정 URL 열기/, 'landing should include custom external URL mode');
 assert.match(indexHtml, /https:\/\/github.com\/trending/, 'landing should include safe default external URL examples');
 assert.match(indexHtml, /urlMode/, 'landing should expose an explicit URL transition mode control');
+assert.match(indexHtml, /이 브라우저에만 저장됨/, 'landing should explain local-only settings persistence');
+assert.match(appJs, /localStorage/, 'app should persist settings in browser localStorage');
+assert.match(appJs, /SETTINGS_STORAGE_KEY/, 'app should use a named settings storage key');
 assert.match(readme, /친구에게 보내는 사용법/, 'README should include friend-beta instructions');
 assert.match(readme, /로컬 서버만 켜서 보여주기/, 'README should avoid implying public deployment by default');
 assert.match(readme, /실제 자료 URL 모드/, 'README should document the external URL mode');

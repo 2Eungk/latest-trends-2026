@@ -33,6 +33,7 @@ h1 { margin: 0; font-size: clamp(44px, 8vw, 92px); letter-spacing: -0.07em; }
 .controls { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 label { display: grid; gap: 10px; color: #cfd9e8; }
 select, input[type="url"] { color: #f4f7fb; background: #151b2a; border: 1px solid rgba(255,255,255,.16); border-radius: 14px; padding: 12px; }
+.settings-status { align-self: end; margin: 0; color: #8fe0b5; font-size: 14px; }
 input[type="range"] { accent-color: #77ffba; }
 .monitor-card { grid-template-columns: 1.1fr .9fr; align-items: center; }
 .camera-wrap { position: relative; min-height: 320px; border-radius: 22px; overflow: hidden; background: #04070c; border: 1px solid rgba(255,255,255,.11); }

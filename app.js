@@ -81,6 +81,38 @@ export function validateExternalUrl(value) {
   }
 }
 
+export const SETTINGS_STORAGE_KEY = 'latest-trends-2026-settings-v1';
+
+const DEFAULT_SETTINGS = {
+  cover: 'trend',
+  sensitivity: 16,
+  roi: 'full',
+  autoRestore: true,
+  transitionMode: 'cover',
+  externalUrl: 'https://github.com/trending',
+  urlPreset: 'https://github.com/trending'
+};
+
+const VALID_COVERS = new Set(['trend', 'sheet', 'meeting', 'docs', 'spreadsheet', 'notion', 'calendar', 'github', 'stats', 'excel', 'paper', 'code']);
+const VALID_ROIS = new Set(['full', 'left', 'right', 'back']);
+const VALID_TRANSITION_MODES = new Set(['cover', 'url']);
+const VALID_URL_PRESETS = new Set(['https://github.com/trending', 'https://arxiv.org/', 'https://scholar.google.com/', 'https://kosis.kr/']);
+
+export function normalizeSettings(raw = {}) {
+  const sensitivity = Number(raw.sensitivity);
+  const external = validateExternalUrl(raw.externalUrl);
+  const preset = validateExternalUrl(raw.urlPreset);
+  return {
+    cover: VALID_COVERS.has(raw.cover) ? raw.cover : DEFAULT_SETTINGS.cover,
+    sensitivity: Number.isFinite(sensitivity) && sensitivity >= 6 && sensitivity <= 32 ? sensitivity : DEFAULT_SETTINGS.sensitivity,
+    roi: VALID_ROIS.has(raw.roi) ? raw.roi : DEFAULT_SETTINGS.roi,
+    autoRestore: typeof raw.autoRestore === 'boolean' ? raw.autoRestore : DEFAULT_SETTINGS.autoRestore,
+    transitionMode: VALID_TRANSITION_MODES.has(raw.transitionMode) ? raw.transitionMode : DEFAULT_SETTINGS.transitionMode,
+    externalUrl: external.ok ? external.url : DEFAULT_SETTINGS.externalUrl,
+    urlPreset: preset.ok && VALID_URL_PRESETS.has(preset.url) ? preset.url : DEFAULT_SETTINGS.urlPreset
+  };
+}
+
 export function roiRectForPreset(preset, width, height) {
   const w = Math.max(0, Math.floor(width));
   const h = Math.max(0, Math.floor(height));
@@ -261,6 +293,7 @@ function initApp() {
   const urlPreset = document.querySelector('#urlPreset');
   const urlHelp = document.querySelector('#urlHelp');
   const urlTestButton = document.querySelector('#urlTestButton');
+  const settingsStatus = document.querySelector('#settingsStatus');
   const video = document.querySelector('#video');
   const canvas = document.querySelector('#motionCanvas');
   const motionBadge = document.querySelector('#motionBadge');
@@ -280,6 +313,57 @@ function initApp() {
   let demoRunning = false;
 
   const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  function readFormSettings() {
+    return normalizeSettings({
+      cover: coverSelect.value,
+      sensitivity: sensitivity.value,
+      roi: roiSelect.value,
+      autoRestore: autoRestore.checked,
+      transitionMode: transitionMode.value,
+      externalUrl: externalUrl.value,
+      urlPreset: urlPreset.value
+    });
+  }
+
+  function applySettings(settings) {
+    coverSelect.value = settings.cover;
+    sensitivity.value = String(settings.sensitivity);
+    sensitivityLabel.textContent = sensitivityText(settings.sensitivity);
+    roiSelect.value = settings.roi;
+    autoRestore.checked = settings.autoRestore;
+    transitionMode.value = settings.transitionMode;
+    externalUrl.value = settings.externalUrl;
+    urlPreset.value = settings.urlPreset;
+    const level = detectionLevel(Number(scoreDetail.dataset.score || 0), settings.sensitivity);
+    scoreLabel.textContent = level.label;
+    scoreLabel.className = level.className;
+    scoreDetail.textContent = `점수 ${scoreDetail.dataset.score || 0}% · 기준 ${settings.sensitivity}% · ${level.detail}`;
+    tuningTip.textContent = tuningTipForPreset(settings.roi);
+  }
+
+  function saveSettings() {
+    try {
+      localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(readFormSettings()));
+      settingsStatus.textContent = '설정은 이 브라우저에만 저장됨';
+    } catch {
+      settingsStatus.textContent = '설정 저장 실패 · 브라우저 저장소를 확인하세요';
+    }
+  }
+
+  function loadSettings() {
+    try {
+      const raw = localStorage.getItem(SETTINGS_STORAGE_KEY);
+      if (!raw) return;
+      applySettings(normalizeSettings(JSON.parse(raw)));
+      settingsStatus.textContent = '저장된 설정 불러옴 · 이 브라우저에만 저장됨';
+    } catch {
+      applySettings(normalizeSettings());
+      settingsStatus.textContent = '저장된 설정을 복구하지 못해 기본값 사용';
+    }
+  }
+
+  loadSettings();
 
   function showCover(state = 'triggered') {
     coverContent.innerHTML = coverTemplateHtml(coverSelect.value);
@@ -387,11 +471,13 @@ function initApp() {
     scoreLabel.textContent = level.label;
     scoreLabel.className = level.className;
     scoreDetail.textContent = `점수 ${currentScore}% · 기준 ${threshold}% · ${level.detail}`;
+    saveSettings();
   });
   roiSelect.addEventListener('change', () => {
     previousFrame = null;
     motionBadge.textContent = `감지 영역: ${roiSelect.selectedOptions[0].textContent}`;
     tuningTip.textContent = tuningTipForPreset(roiSelect.value);
+    saveSettings();
   });
   startButton.addEventListener('click', startCamera);
   demoButton.addEventListener('click', () => activateCover('demo'));
@@ -399,17 +485,22 @@ function initApp() {
   urlPreset.addEventListener('change', () => {
     externalUrl.value = urlPreset.value;
     urlHelp.textContent = '추천 URL 적용됨 · 테스트 후 사용하세요';
+    saveSettings();
   });
   externalUrl.addEventListener('input', () => {
     const result = validateExternalUrl(externalUrl.value);
     urlHelp.textContent = result.ok ? `유효한 URL · ${result.url}` : result.message;
+    saveSettings();
   });
   urlTestButton.addEventListener('click', openExternalUrl);
   restoreButton.addEventListener('click', hideCover);
   coverExit.addEventListener('click', hideCover);
   coverSelect.addEventListener('change', () => {
     if (coverVisible) coverContent.innerHTML = coverTemplateHtml(coverSelect.value);
+    saveSettings();
   });
+  autoRestore.addEventListener('change', saveSettings);
+  transitionMode.addEventListener('change', saveSettings);
   document.addEventListener('keydown', (event) => {
     if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === 'l') {
       event.preventDefault();

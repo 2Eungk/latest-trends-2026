@@ -18,6 +18,7 @@
 - 비상 전환 테스트 버튼
 - 데모 시나리오 시작: 3초 카운트다운 후 위장 화면 전환
 - 지정 HTTPS URL 열기 모드: GitHub/arXiv/Scholar/KOSIS 등 사용자가 지정한 실제 자료 사이트로 현재 탭 이동
+- 설정 자동 저장: 선택한 위장 페이지/감도/감지 영역/URL 모드를 이 브라우저 localStorage에만 저장
 - `Ctrl + Shift + L` 단축키 전환/복귀
 - 서버 업로드/저장 없음
 - 외부 스크립트/CDN 없음
@@ -46,6 +47,12 @@ python3 -m http.server 4180 --bind 127.0.0.1
 - `https://` 주소만 허용. `http:`, `javascript:`, `data:`, `file:` 같은 주소는 차단.
 - 기본 추천 URL: GitHub Trending, arXiv, Google Scholar, KOSIS.
 - 실제 사이트 내용은 긁거나 저장하지 않고 브라우저가 직접 이동함.
+
+## 설정 저장
+
+- 위장 페이지, 팀장 감도, 감지 영역, 자동 복귀, 전환 방식, 외부 URL, 추천 자료 선택은 자동 저장.
+- 저장 위치는 이 브라우저의 `localStorage`뿐이며 서버로 전송하지 않음.
+- 잘못된 저장값이 있으면 기본값으로 복구.
 
 ## 친구에게 보내는 사용법
 

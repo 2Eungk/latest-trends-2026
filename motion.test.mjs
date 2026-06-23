@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { coverTemplateHtml, demoCountdownText, detectionLevel, detectionStatusText, motionScore, permissionHelpText, roiRectForPreset, sensitivityText, tuningTipForPreset, validateExternalUrl, shouldTriggerCover } from './app.js';
+import { coverTemplateHtml, demoCountdownText, detectionLevel, detectionStatusText, motionScore, normalizeSettings, permissionHelpText, roiRectForPreset, sensitivityText, SETTINGS_STORAGE_KEY, tuningTipForPreset, validateExternalUrl, shouldTriggerCover } from './app.js';
 
 const stillA = new Uint8ClampedArray([10, 10, 10, 255, 20, 20, 20, 255, 30, 30, 30, 255, 40, 40, 40, 255]);
 const stillB = new Uint8ClampedArray(stillA);
@@ -60,6 +60,18 @@ assert.deepEqual(validateExternalUrl('  https://arxiv.org/  '), { ok: true, url:
 assert.deepEqual(validateExternalUrl('http://example.com'), { ok: false, message: 'https:// 주소만 사용할 수 있어요' });
 assert.deepEqual(validateExternalUrl('javascript:alert(1)'), { ok: false, message: 'https:// 주소만 사용할 수 있어요' });
 assert.deepEqual(validateExternalUrl('https://'), { ok: false, message: '올바른 URL을 입력하세요' });
+
+assert.equal(SETTINGS_STORAGE_KEY, 'latest-trends-2026-settings-v1');
+assert.deepEqual(
+  normalizeSettings({ cover: 'paper', sensitivity: '24', roi: 'back', autoRestore: false, transitionMode: 'url', externalUrl: 'https://arxiv.org/', urlPreset: 'https://arxiv.org/' }),
+  { cover: 'paper', sensitivity: 24, roi: 'back', autoRestore: false, transitionMode: 'url', externalUrl: 'https://arxiv.org/', urlPreset: 'https://arxiv.org/' },
+  'valid saved settings should normalize into app state'
+);
+assert.deepEqual(
+  normalizeSettings({ cover: 'bad', sensitivity: '99', roi: 'bad', autoRestore: 'nope', transitionMode: 'bad', externalUrl: 'javascript:alert(1)', urlPreset: 'ftp://bad' }),
+  { cover: 'trend', sensitivity: 16, roi: 'full', autoRestore: true, transitionMode: 'cover', externalUrl: 'https://github.com/trending', urlPreset: 'https://github.com/trending' },
+  'invalid saved settings should fall back safely'
+);
 
 assert.deepEqual(roiRectForPreset('full', 160, 90), { x: 0, y: 0, width: 160, height: 90 });
 assert.deepEqual(roiRectForPreset('left', 160, 90), { x: 0, y: 0, width: 80, height: 90 });
