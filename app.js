@@ -69,6 +69,18 @@ export function demoCountdownText(step) {
   return steps[step] || '데모 시나리오 대기';
 }
 
+export function validateExternalUrl(value) {
+  const raw = String(value || '').trim();
+  if (!raw.startsWith('https://')) return { ok: false, message: 'https:// 주소만 사용할 수 있어요' };
+  try {
+    const url = new URL(raw);
+    if (!url.hostname) return { ok: false, message: '올바른 URL을 입력하세요' };
+    return { ok: true, url: url.href };
+  } catch {
+    return { ok: false, message: '올바른 URL을 입력하세요' };
+  }
+}
+
 export function roiRectForPreset(preset, width, height) {
   const w = Math.max(0, Math.floor(width));
   const h = Math.max(0, Math.floor(height));
@@ -244,6 +256,11 @@ function initApp() {
   const sensitivityLabel = document.querySelector('#sensitivityLabel');
   const roiSelect = document.querySelector('#roiSelect');
   const autoRestore = document.querySelector('#autoRestore');
+  const transitionMode = document.querySelector('#transitionMode');
+  const externalUrl = document.querySelector('#externalUrl');
+  const urlPreset = document.querySelector('#urlPreset');
+  const urlHelp = document.querySelector('#urlHelp');
+  const urlTestButton = document.querySelector('#urlTestButton');
   const video = document.querySelector('#video');
   const canvas = document.querySelector('#motionCanvas');
   const motionBadge = document.querySelector('#motionBadge');
@@ -281,6 +298,25 @@ function initApp() {
     statusEl.textContent = detectionStatusText('restored');
   }
 
+  function openExternalUrl() {
+    const result = validateExternalUrl(externalUrl.value);
+    if (!result.ok) {
+      urlHelp.textContent = result.message;
+      return false;
+    }
+    urlHelp.textContent = `이동 준비됨 · ${result.url}`;
+    window.location.assign(result.url);
+    return true;
+  }
+
+  function activateCover(state = 'triggered') {
+    if (transitionMode.value === 'url') {
+      openExternalUrl();
+      return;
+    }
+    showCover(state);
+  }
+
   function tick() {
     if (video.readyState >= 2) {
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -301,7 +337,7 @@ function initApp() {
         lastMotionAt = now;
         if (!coverVisible && shouldTriggerCover({ score, threshold, now, lastTriggerAt, cooldownMs: 1500 })) {
           lastTriggerAt = now;
-          showCover('triggered');
+          activateCover('triggered');
         }
       }
       if (coverVisible && autoRestore.checked && Date.now() - lastMotionAt > 5000) hideCover();
@@ -335,7 +371,7 @@ function initApp() {
       statusEl.textContent = message;
       await wait(1000);
     }
-    showCover('demo');
+    activateCover('demo');
     const success = demoCountdownText(0);
     demoCountdown.textContent = success;
     demoResult.textContent = success;
@@ -358,8 +394,17 @@ function initApp() {
     tuningTip.textContent = tuningTipForPreset(roiSelect.value);
   });
   startButton.addEventListener('click', startCamera);
-  demoButton.addEventListener('click', () => showCover('demo'));
+  demoButton.addEventListener('click', () => activateCover('demo'));
   scenarioDemoButton.addEventListener('click', startDemoScenario);
+  urlPreset.addEventListener('change', () => {
+    externalUrl.value = urlPreset.value;
+    urlHelp.textContent = '추천 URL 적용됨 · 테스트 후 사용하세요';
+  });
+  externalUrl.addEventListener('input', () => {
+    const result = validateExternalUrl(externalUrl.value);
+    urlHelp.textContent = result.ok ? `유효한 URL · ${result.url}` : result.message;
+  });
+  urlTestButton.addEventListener('click', openExternalUrl);
   restoreButton.addEventListener('click', hideCover);
   coverExit.addEventListener('click', hideCover);
   coverSelect.addEventListener('change', () => {
@@ -368,7 +413,7 @@ function initApp() {
   document.addEventListener('keydown', (event) => {
     if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === 'l') {
       event.preventDefault();
-      coverVisible ? hideCover() : showCover('demo');
+      coverVisible ? hideCover() : activateCover('demo');
     }
   });
 

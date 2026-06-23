@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { coverTemplateHtml, demoCountdownText, detectionLevel, detectionStatusText, motionScore, permissionHelpText, roiRectForPreset, sensitivityText, tuningTipForPreset, shouldTriggerCover } from './app.js';
+import { coverTemplateHtml, demoCountdownText, detectionLevel, detectionStatusText, motionScore, permissionHelpText, roiRectForPreset, sensitivityText, tuningTipForPreset, validateExternalUrl, shouldTriggerCover } from './app.js';
 
 const stillA = new Uint8ClampedArray([10, 10, 10, 255, 20, 20, 20, 255, 30, 30, 30, 255, 40, 40, 40, 255]);
 const stillB = new Uint8ClampedArray(stillA);
@@ -54,6 +54,12 @@ assert.equal(demoCountdownText(2), '2 · 월급 보존 시스템 대기');
 assert.equal(demoCountdownText(1), '1 · 2026 최신동향 전환');
 assert.equal(demoCountdownText(0), '생존 성공 · 업무 화면 전환 완료');
 assert.equal(demoCountdownText(99), '데모 시나리오 대기');
+
+assert.deepEqual(validateExternalUrl('https://github.com/trending'), { ok: true, url: 'https://github.com/trending' });
+assert.deepEqual(validateExternalUrl('  https://arxiv.org/  '), { ok: true, url: 'https://arxiv.org/' });
+assert.deepEqual(validateExternalUrl('http://example.com'), { ok: false, message: 'https:// 주소만 사용할 수 있어요' });
+assert.deepEqual(validateExternalUrl('javascript:alert(1)'), { ok: false, message: 'https:// 주소만 사용할 수 있어요' });
+assert.deepEqual(validateExternalUrl('https://'), { ok: false, message: '올바른 URL을 입력하세요' });
 
 assert.deepEqual(roiRectForPreset('full', 160, 90), { x: 0, y: 0, width: 160, height: 90 });
 assert.deepEqual(roiRectForPreset('left', 160, 90), { x: 0, y: 0, width: 80, height: 90 });

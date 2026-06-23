@@ -36,8 +36,13 @@ assert.match(indexHtml, /Excel 통계 시트/, 'cover selector should include an
 assert.match(indexHtml, /영어 논문 PDF/, 'cover selector should include an English paper screen');
 assert.match(indexHtml, /데모 찍는 법/, 'landing should include a short demo-filming guide');
 assert.match(indexHtml, /친구에게 보여줄 때/, 'landing should include friend-beta sharing copy');
+assert.match(indexHtml, /지정 URL 열기/, 'landing should include custom external URL mode');
+assert.match(indexHtml, /https:\/\/github.com\/trending/, 'landing should include safe default external URL examples');
+assert.match(indexHtml, /urlMode/, 'landing should expose an explicit URL transition mode control');
 assert.match(readme, /친구에게 보내는 사용법/, 'README should include friend-beta instructions');
 assert.match(readme, /로컬 서버만 켜서 보여주기/, 'README should avoid implying public deployment by default');
+assert.match(readme, /실제 자료 URL 모드/, 'README should document the external URL mode');
+assert.match(readme, /https:\/\//, 'README should document HTTPS-only URL safety');
 assert.match(appJs, /permissionHelpText/, 'camera permission recovery copy should be centralized');
 assert.match(appJs, /tuningTipForPreset/, 'ROI tuning help should be centralized');
 assert.match(appJs, /demoCountdownText/, 'demo countdown copy should be centralized');
