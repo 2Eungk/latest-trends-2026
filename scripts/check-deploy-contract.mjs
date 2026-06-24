@@ -21,6 +21,7 @@ const workflow = read('.github/workflows/pages.yml');
 const builder = read('scripts/build-static-site.mjs');
 
 assert.match(workflow, /actions\/configure-pages@v5/, 'workflow should configure GitHub Pages');
+assert.match(workflow, /enablement:\s*true/, 'workflow should enable GitHub Pages on first deploy');
 assert.match(workflow, /actions\/upload-pages-artifact@v3/, 'workflow should upload a Pages artifact');
 assert.match(workflow, /actions\/deploy-pages@v4/, 'workflow should deploy via official Pages action');
 assert.match(workflow, /npm run check/, 'workflow should run full safety checks before deploy');
