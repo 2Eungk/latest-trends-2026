@@ -34,7 +34,13 @@ h1 { margin: 0; font-size: clamp(44px, 8vw, 92px); letter-spacing: -0.07em; }
 .scenario-primary:disabled { opacity: .72; transform: none; cursor: wait; }
 .hidden { display: none !important; }
 .status { color: #8fe0b5; min-height: 24px; }
-.demo-countdown { display: inline-flex; margin-top: 4px; padding: 12px 14px; border-radius: 16px; background: rgba(145,197,255,.11); border: 1px solid rgba(145,197,255,.22); color: #dbeaff; font-weight: 900; }
+.demo-countdown, .countdown-step { display: inline-flex; margin-top: 4px; padding: 12px 14px; border-radius: 16px; background: rgba(145,197,255,.11); border: 1px solid rgba(145,197,255,.22); color: #dbeaff; font-weight: 900; transition: transform .22s ease, background .22s ease, box-shadow .22s ease; }
+.countdown-step { animation: pulseStep .7s ease both; }
+.countdown-step.step-3 { background: rgba(255,221,101,.18); border-color: rgba(255,221,101,.35); color: #fff2b8; }
+.countdown-step.step-2 { background: rgba(255,122,144,.18); border-color: rgba(255,122,144,.35); color: #ffd5dc; }
+.countdown-step.step-1 { background: rgba(119,255,186,.18); border-color: rgba(119,255,186,.35); color: #caffdf; box-shadow: 0 0 36px rgba(119,255,186,.18); }
+.countdown-step.success { background: rgba(119,255,186,.24); border-color: rgba(119,255,186,.45); color: #77ffba; box-shadow: 0 0 42px rgba(119,255,186,.22); }
+@keyframes pulseStep { from { transform: scale(.96); opacity: .72; } to { transform: scale(1); opacity: 1; } }
 .demo-result { margin: 10px 0 0; color: #77ffba; font-weight: 900; min-height: 24px; }
 .share-guide { display: grid; gap: 4px; max-width: 680px; margin-top: 14px; padding: 14px 16px; border-radius: 16px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); color: #c9d7ea; }
 .share-guide strong { color: #91c5ff; }

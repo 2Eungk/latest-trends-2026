@@ -58,6 +58,9 @@ assert.match(readme, /실제 자료 URL 모드/, 'README should document the ext
 assert.match(readme, /https:\/\//, 'README should document HTTPS-only URL safety');
 assert.match(appJs, /permissionHelpText/, 'camera permission recovery copy should be centralized');
 assert.match(appJs, /tuningTipForPreset/, 'ROI tuning help should be centralized');
+assert.match(appJs, /demoCountdownPhase/, 'demo countdown visual phase copy should be centralized');
+assert.match(appJs, /countdown-step step-3/, 'demo countdown should expose a visual class for step 3');
+assert.match(appJs, /countdown-step success/, 'demo countdown should expose a success visual class');
 assert.match(appJs, /demoCountdownText/, 'demo countdown copy should be centralized');
 
 console.log('static contract checks passed');

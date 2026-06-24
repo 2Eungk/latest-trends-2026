@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { calibrationSummary, coverTemplateHtml, demoCountdownText, detectionLevel, detectionStatusText, motionScore, normalizeSettings, permissionHelpText, roiRectForPreset, sensitivityText, SETTINGS_STORAGE_KEY, tuningTipForPreset, validateExternalUrl, shouldTriggerCover } from './app.js';
+import { calibrationSummary, coverTemplateHtml, demoCountdownText, demoCountdownPhase, detectionLevel, detectionStatusText, motionScore, normalizeSettings, permissionHelpText, roiRectForPreset, sensitivityText, SETTINGS_STORAGE_KEY, tuningTipForPreset, validateExternalUrl, shouldTriggerCover } from './app.js';
 
 const stillA = new Uint8ClampedArray([10, 10, 10, 255, 20, 20, 20, 255, 30, 30, 30, 255, 40, 40, 40, 255]);
 const stillB = new Uint8ClampedArray(stillA);
@@ -57,6 +57,11 @@ assert.equal(demoCountdownText(2), '2 · 월급 보존 시스템 대기');
 assert.equal(demoCountdownText(1), '1 · 2026 최신동향 전환');
 assert.equal(demoCountdownText(0), '생존 성공 · 업무 화면 전환 완료');
 assert.equal(demoCountdownText(99), '데모 시나리오 대기');
+assert.deepEqual(demoCountdownPhase(3), { className: 'countdown-step step-3', label: '팀장 접근 감지 준비' });
+assert.deepEqual(demoCountdownPhase(2), { className: 'countdown-step step-2', label: '월급 보존 시스템 대기' });
+assert.deepEqual(demoCountdownPhase(1), { className: 'countdown-step step-1', label: '2026 최신동향 ON' });
+assert.deepEqual(demoCountdownPhase(0), { className: 'countdown-step success', label: '생존 성공' });
+assert.deepEqual(demoCountdownPhase(99), { className: 'countdown-step idle', label: '데모 대기' });
 
 assert.deepEqual(validateExternalUrl('https://github.com/trending'), { ok: true, url: 'https://github.com/trending' });
 assert.deepEqual(validateExternalUrl('  https://arxiv.org/  '), { ok: true, url: 'https://arxiv.org/' });

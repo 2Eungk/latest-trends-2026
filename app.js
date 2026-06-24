@@ -79,6 +79,16 @@ export function demoCountdownText(step) {
   return steps[step] || '데모 시나리오 대기';
 }
 
+export function demoCountdownPhase(step) {
+  const phases = {
+    3: { className: 'countdown-step step-3', label: '팀장 접근 감지 준비' },
+    2: { className: 'countdown-step step-2', label: '월급 보존 시스템 대기' },
+    1: { className: 'countdown-step step-1', label: '2026 최신동향 ON' },
+    0: { className: 'countdown-step success', label: '생존 성공' }
+  };
+  return phases[step] || { className: 'countdown-step idle', label: '데모 대기' };
+}
+
 export function validateExternalUrl(value) {
   const raw = String(value || '').trim();
   if (!raw.startsWith('https://')) return { ok: false, message: 'https:// 주소만 사용할 수 있어요' };
@@ -479,13 +489,19 @@ function initApp() {
     scenarioDemoButton.disabled = true;
     demoResult.textContent = '';
     for (const step of [3, 2, 1]) {
+      const phase = demoCountdownPhase(step);
       const message = demoCountdownText(step);
+      demoCountdown.className = phase.className;
+      demoCountdown.dataset.phase = String(step);
       demoCountdown.textContent = message;
       statusEl.textContent = message;
       await wait(1000);
     }
     activateCover('demo');
     const success = demoCountdownText(0);
+    const successPhase = demoCountdownPhase(0);
+    demoCountdown.className = successPhase.className;
+    demoCountdown.dataset.phase = '0';
     demoCountdown.textContent = success;
     demoResult.textContent = success;
     scenarioDemoButton.disabled = false;
