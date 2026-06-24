@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "test": "node motion.test.mjs",
-    "check": "npm test && node scripts/check-static-contract.mjs && node scripts/check-package-contract.mjs",
-    "package": "node scripts/package-demo.mjs"
+    "check": "npm test && node scripts/check-static-contract.mjs && node scripts/check-package-contract.mjs && node scripts/check-deploy-contract.mjs",
+    "package": "node scripts/package-demo.mjs",
+    "build:site": "node scripts/build-static-site.mjs",
+    "deploy:check": "npm run check && npm run build:site"
   }
 }

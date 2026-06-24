@@ -75,6 +75,25 @@ npm run package
 브라우저가 자동으로 열리면 카메라 권한을 허용하고 `보호 시작`을 누르기.
 Python이 없다는 안내가 나오면 `https://www.python.org/downloads/`에서 설치 후 다시 실행.
 
+### URL로 보여주기
+
+GitHub Pages 같은 정적 호스팅에 올리면 친구는 ZIP 없이 링크만 열면 됨.
+
+```bash
+npm run deploy:check
+```
+
+위 명령은 전체 안전 검증을 돌리고, GitHub Pages에 올릴 정적 산출물을 `dist/site/`에 생성함.
+
+GitHub Pages 배포 흐름:
+
+1. 저장소 Settings → Pages → Source를 `GitHub Actions`로 설정.
+2. `.github/workflows/pages.yml` 워크플로가 `main` 브랜치 push 또는 수동 실행 시 작동.
+3. 워크플로는 `npm run check`로 서버 업로드 없음/외부 스크립트 없음/패키징/배포 계약을 검증.
+4. 통과하면 `npm run build:site`로 만든 `dist/site/`만 업로드.
+
+URL 모드에서도 앱 코드는 그대로 정적 파일이며, 카메라 프레임은 브라우저 안에서만 처리됨. 서버 업로드 없음, 얼굴 인식 없음, 계정/로그인 없음.
+
 ### 직접 로컬 서버로 열기
 
 1. 터미널에서 `python3 -m http.server 4180 --bind 127.0.0.1` 실행.
