@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { calibrationSummary, coverTemplateHtml, demoCountdownText, demoCountdownPhase, detectionLevel, detectionStatusText, motionScore, normalizeSettings, permissionHelpText, roiRectForPreset, sensitivityText, SETTINGS_STORAGE_KEY, tuningTipForPreset, validateExternalUrl, shouldTriggerCover } from './app.js';
+import { calibrationSummary, coverModeLabel, coverTemplateHtml, demoCountdownText, demoCountdownPhase, detectionLevel, detectionStatusText, motionScore, normalizeSettings, permissionHelpText, roiRectForPreset, sensitivityText, SETTINGS_STORAGE_KEY, tuningTipForPreset, validateExternalUrl, shouldTriggerCover } from './app.js';
 
 const stillA = new Uint8ClampedArray([10, 10, 10, 255, 20, 20, 20, 255, 30, 30, 30, 255, 40, 40, 40, 255]);
 const stillB = new Uint8ClampedArray(stillA);
@@ -42,6 +42,9 @@ assert.equal(detectionStatusText('demo'), '비상 전환 테스트 · 업무 리
 assert.equal(detectionStatusText('restored'), '보호 중 · 원래 화면 복귀');
 assert.equal(detectionStatusText('camera-error', 'Permission denied'), '카메라 접근 실패: Permission denied');
 assert.equal(detectionStatusText('unknown'), '대기 중 · 카메라 접근 전');
+assert.equal(coverModeLabel('demo'), '긴급 업무 모드 ON · 생존 성공');
+assert.equal(coverModeLabel('triggered'), '긴급 업무 모드 ON · 움직임 감지');
+assert.equal(coverModeLabel('restored'), '업무 화면 대기');
 assert.equal(permissionHelpText('NotAllowedError'), '카메라 권한이 막혔어요 · 주소창 카메라 아이콘에서 허용으로 바꾼 뒤 다시 보호 시작');
 assert.equal(permissionHelpText('NotFoundError'), '사용 가능한 카메라를 못 찾았어요 · 노트북/웹캠 연결을 확인하세요');
 assert.equal(permissionHelpText('OtherError'), '카메라 시작 전 비상 전환 테스트로 위장 화면부터 확인하세요');

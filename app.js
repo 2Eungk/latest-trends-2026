@@ -49,6 +49,12 @@ export function detectionStatusText(state, detail = '') {
   return statuses[state] || statuses.idle;
 }
 
+export function coverModeLabel(state = 'triggered') {
+  if (state === 'demo') return '긴급 업무 모드 ON · 생존 성공';
+  if (state === 'triggered') return '긴급 업무 모드 ON · 움직임 감지';
+  return '업무 화면 대기';
+}
+
 export function permissionHelpText(errorName = '') {
   if (errorName === 'NotAllowedError' || errorName === 'PermissionDeniedError') {
     return '카메라 권한이 막혔어요 · 주소창 카메라 아이콘에서 허용으로 바꾼 뒤 다시 보호 시작';
@@ -301,6 +307,7 @@ function initApp() {
   const restoreButton = document.querySelector('#restoreButton');
   const coverExit = document.querySelector('#coverExit');
   const cover = document.querySelector('#cover');
+  const coverMode = document.querySelector('#coverMode');
   const coverContent = document.querySelector('#coverContent');
   const coverSelect = document.querySelector('#coverSelect');
   const statusEl = document.querySelector('#status');
@@ -394,6 +401,8 @@ function initApp() {
 
   function showCover(state = 'triggered') {
     coverContent.innerHTML = coverTemplateHtml(coverSelect.value);
+    coverMode.textContent = coverModeLabel(state);
+    coverMode.dataset.state = state;
     cover.classList.remove('hidden');
     app.setAttribute('aria-hidden', 'true');
     restoreButton.classList.remove('hidden');
@@ -405,6 +414,8 @@ function initApp() {
     cover.classList.add('hidden');
     app.removeAttribute('aria-hidden');
     coverVisible = false;
+    coverMode.textContent = coverModeLabel('restored');
+    coverMode.dataset.state = 'restored';
     restoreButton.classList.add('hidden');
     statusEl.textContent = detectionStatusText('restored');
   }
