@@ -42,8 +42,12 @@ assert.match(indexHtml, /2\. 보호 시작/, 'first-run guide should point to th
 assert.match(indexHtml, /3\. 데모 시나리오 시작/, 'first-run guide should point to the showable demo path');
 assert.match(indexHtml, /first-run-guide/, 'first-run guide should have a stable DOM anchor');
 assert.match(indexHtml, /coverMode/, 'cover should include a visible mode/status label');
+assert.match(indexHtml, /coverProof/, 'cover should include a visible proof line for demo believability');
+assert.match(indexHtml, /위장 리포트 대기 중/, 'cover proof should have a safe idle label');
 assert.match(indexHtml, /업무 화면 대기/, 'cover status should have a safe idle label');
 assert.match(appJs, /coverModeLabel/, 'cover mode label copy should be centralized');
+assert.match(appJs, /coverProofText/, 'cover proof copy should be centralized');
+assert.match(appJs, /월급 보존 프로토콜 정상 작동/, 'demo cover proof should communicate the gag success');
 assert.match(appJs, /긴급 업무 모드 ON/, 'cover mode should communicate emergency work mode');
 assert.match(indexHtml, /데모 찍는 법/, 'landing should include a short demo-filming guide');
 assert.match(indexHtml, /친구에게 보여줄 때/, 'landing should include friend-beta sharing copy');

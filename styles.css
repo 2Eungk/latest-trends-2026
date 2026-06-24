@@ -78,6 +78,7 @@ kbd { background: rgba(255,255,255,.13); border: 1px solid rgba(255,255,255,.2);
 .cover { position: fixed; inset: 0; background: #f6f8fb; color: #172033; z-index: 10; overflow: auto; }
 .cover-topbar { min-height: 54px; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 0 22px; background: #fff; border-bottom: 1px solid #dce3ee; color: #58667b; font-size: 14px; }
 .cover-mode { flex: 0 0 auto; padding: 8px 12px; border-radius: 999px; background: #172033; color: #77ffba; font-weight: 900; letter-spacing: -0.01em; box-shadow: 0 8px 24px rgba(23,32,51,.16); }
+.cover-proof { flex: 1; min-width: 220px; color: #172033; font-weight: 800; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .cover-topbar button { background: #eef3fb; color: #253046; border-radius: 10px; padding: 8px 12px; }
 .cover-content { max-width: 1180px; margin: 0 auto; padding: 34px 24px 70px; }
 .report-title { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; border-bottom: 2px solid #172033; padding-bottom: 24px; }
