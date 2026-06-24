@@ -64,6 +64,11 @@ assert.match(indexHtml, /조용한 사무실/, 'settings presets should include 
 assert.match(indexHtml, /카페\/공유오피스/, 'settings presets should include busy cafe/shared office');
 assert.match(indexHtml, /뒤쪽 사람 감지/, 'settings presets should include rear detection');
 assert.match(indexHtml, /친구 데모용/, 'settings presets should include friend demo');
+assert.match(indexHtml, /프리셋 적용 \+ 데모 시작/, 'friend demo should include a one-click preset-and-start action');
+assert.match(indexHtml, /quickFriendDemoButton/, 'friend demo one-click action should have a stable DOM anchor');
+assert.match(appJs, /friendDemoSettings/, 'friend demo one-click settings should be centralized');
+assert.match(appJs, /applyFriendDemoAndStart/, 'friend demo one-click action should apply settings before starting the demo');
+assert.match(appJs, /친구 데모용 설정 적용 · 3초 뒤 업무 화면 전환/, 'friend demo one-click action should explain the countdown path');
 assert.match(appJs, /presetSettings/, 'preset settings should be centralized');
 assert.match(indexHtml, /안정적 · 그대로 사용해도 좋아요/, 'score advice should start with a safe default');
 assert.match(appJs, /motionAdviceText/, 'motion tuning advice copy should be centralized');

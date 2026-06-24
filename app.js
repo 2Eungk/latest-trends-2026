@@ -147,6 +147,10 @@ export function presetSettings(id) {
   return { ...(SETTINGS_PRESETS[id] || SETTINGS_PRESETS['quiet-office']) };
 }
 
+export function friendDemoSettings(current = {}) {
+  return normalizeSettings({ ...current, ...presetSettings('friend-demo') });
+}
+
 export function normalizeSettings(raw = {}) {
   const sensitivity = Number(raw.sensitivity);
   const external = validateExternalUrl(raw.externalUrl);
@@ -327,6 +331,7 @@ function initApp() {
   const startButton = document.querySelector('#startButton');
   const demoButton = document.querySelector('#demoButton');
   const scenarioDemoButton = document.querySelector('#scenarioDemoButton');
+  const quickFriendDemoButton = document.querySelector('#quickFriendDemoButton');
   const restoreButton = document.querySelector('#restoreButton');
   const coverExit = document.querySelector('#coverExit');
   const cover = document.querySelector('#cover');
@@ -529,6 +534,7 @@ function initApp() {
     if (demoRunning) return;
     demoRunning = true;
     scenarioDemoButton.disabled = true;
+    quickFriendDemoButton.disabled = true;
     demoResult.textContent = '';
     for (const step of [3, 2, 1]) {
       const phase = demoCountdownPhase(step);
@@ -547,7 +553,16 @@ function initApp() {
     demoCountdown.textContent = success;
     demoResult.textContent = success;
     scenarioDemoButton.disabled = false;
+    quickFriendDemoButton.disabled = false;
     demoRunning = false;
+  }
+
+  async function applyFriendDemoAndStart() {
+    const next = friendDemoSettings(readFormSettings());
+    applySettings(next);
+    saveSettings();
+    settingsStatus.textContent = '친구 데모용 설정 적용 · 3초 뒤 업무 화면 전환';
+    await startDemoScenario();
   }
 
   function startCalibration() {
@@ -587,6 +602,7 @@ function initApp() {
   startButton.addEventListener('click', startCamera);
   demoButton.addEventListener('click', () => activateCover('demo'));
   scenarioDemoButton.addEventListener('click', startDemoScenario);
+  quickFriendDemoButton.addEventListener('click', applyFriendDemoAndStart);
   urlPreset.addEventListener('change', () => {
     externalUrl.value = urlPreset.value;
     urlHelp.textContent = '추천 URL 적용됨 · 테스트 후 사용하세요';

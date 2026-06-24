@@ -51,6 +51,7 @@ select, input[type="url"] { color: #f4f7fb; background: #151b2a; border: 1px sol
 .settings-status { align-self: end; margin: 0; color: #8fe0b5; font-size: 14px; }
 .preset-row { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 10px; }
 .preset-button { padding: 10px 12px; border-radius: 999px; background: rgba(119,255,186,.11); color: #dfffee; border: 1px solid rgba(119,255,186,.22); font-weight: 800; }
+.preset-demo-start { background: linear-gradient(135deg, rgba(255,221,101,.28), rgba(255,122,144,.25)); color: #fff4d8; border-color: rgba(255,221,101,.48); box-shadow: 0 10px 32px rgba(255,122,144,.18); }
 input[type="range"] { accent-color: #77ffba; }
 .monitor-card { grid-template-columns: 1.1fr .9fr; align-items: center; }
 .camera-wrap { position: relative; min-height: 320px; border-radius: 22px; overflow: hidden; background: #04070c; border: 1px solid rgba(255,255,255,.11); }
