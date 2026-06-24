@@ -26,9 +26,12 @@ h1 { margin: 0; font-size: clamp(44px, 8vw, 92px); letter-spacing: -0.07em; }
 .first-run-guide b { color: #f4f7fb; }
 .first-run-guide span { color: #b9c6d9; font-size: 13px; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
-.primary, .ghost { padding: 14px 18px; border-radius: 16px; font-weight: 800; }
+.primary, .ghost, .scenario-primary { padding: 14px 18px; border-radius: 16px; font-weight: 800; }
 .primary { background: #77ffba; color: #06110c; }
 .ghost { background: rgba(255,255,255,.1); color: #f4f7fb; }
+.scenario-primary { display: grid; gap: 3px; min-width: 230px; background: linear-gradient(135deg, #ffdd65, #ff7a90); color: #16080b; box-shadow: 0 16px 45px rgba(255,122,144,.26); transform: translateY(-2px); }
+.scenario-primary span { font-size: 12px; letter-spacing: .02em; opacity: .82; }
+.scenario-primary:disabled { opacity: .72; transform: none; cursor: wait; }
 .hidden { display: none !important; }
 .status { color: #8fe0b5; min-height: 24px; }
 .demo-countdown { display: inline-flex; margin-top: 4px; padding: 12px 14px; border-radius: 16px; background: rgba(145,197,255,.11); border: 1px solid rgba(145,197,255,.22); color: #dbeaff; font-weight: 900; }

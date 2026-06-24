@@ -27,6 +27,8 @@ assert.match(indexHtml, /업무 화면 준비 완료/, 'landing should communica
 assert.match(indexHtml, /주소창 카메라 아이콘/, 'landing should explain how to recover from blocked camera permission');
 assert.match(indexHtml, /상단\/뒤쪽 배경/, 'landing should guide users toward rear-background tuning');
 assert.match(indexHtml, /데모 시나리오 시작/, 'landing should include a showable demo scenario button');
+assert.match(indexHtml, /친구한테 보여줄 땐 이 버튼/, 'landing should make the friend demo action obvious');
+assert.match(indexHtml, /scenario-primary/, 'demo scenario button should have a distinct visual class');
 assert.match(indexHtml, /demoCountdown/, 'landing should include a countdown display region');
 assert.match(indexHtml, /Notion 프로젝트 보드/, 'cover selector should include a Notion-style board');
 assert.match(indexHtml, /캘린더\/회의 일정/, 'cover selector should include a calendar-style schedule');
