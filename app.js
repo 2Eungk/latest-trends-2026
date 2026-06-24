@@ -136,6 +136,17 @@ const VALID_ROIS = new Set(['full', 'left', 'right', 'back']);
 const VALID_TRANSITION_MODES = new Set(['cover', 'url']);
 const VALID_URL_PRESETS = new Set(['https://github.com/trending', 'https://arxiv.org/', 'https://scholar.google.com/', 'https://kosis.kr/']);
 
+const SETTINGS_PRESETS = {
+  'quiet-office': { cover: 'trend', sensitivity: 14, roi: 'full', transitionMode: 'cover' },
+  'busy-cafe': { cover: 'stats', sensitivity: 26, roi: 'full', transitionMode: 'cover' },
+  'back-watch': { cover: 'github', sensitivity: 20, roi: 'back', transitionMode: 'cover' },
+  'friend-demo': { cover: 'github', sensitivity: 16, roi: 'full', transitionMode: 'cover' }
+};
+
+export function presetSettings(id) {
+  return { ...(SETTINGS_PRESETS[id] || SETTINGS_PRESETS['quiet-office']) };
+}
+
 export function normalizeSettings(raw = {}) {
   const sensitivity = Number(raw.sensitivity);
   const external = validateExternalUrl(raw.externalUrl);
@@ -387,6 +398,7 @@ function initApp() {
     scoreLabel.textContent = level.label;
     scoreLabel.className = level.className;
     scoreDetail.textContent = `점수 ${scoreDetail.dataset.score || 0}% · 기준 ${settings.sensitivity}% · ${level.detail}`;
+    scoreAdvice.textContent = motionAdviceText(Number(scoreDetail.dataset.score || 0), settings.sensitivity);
     tuningTip.textContent = tuningTipForPreset(settings.roi);
   }
 
@@ -586,6 +598,14 @@ function initApp() {
     saveSettings();
   });
   urlTestButton.addEventListener('click', openExternalUrl);
+  document.querySelectorAll('[data-preset]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const next = normalizeSettings({ ...readFormSettings(), ...presetSettings(button.dataset.preset) });
+      applySettings(next);
+      saveSettings();
+      settingsStatus.textContent = `${button.textContent} 프리셋 적용됨 · 이 브라우저에만 저장됨`;
+    });
+  });
   calibrationButton.addEventListener('click', startCalibration);
   applyCalibrationButton.addEventListener('click', applyCalibration);
   restoreButton.addEventListener('click', hideCover);

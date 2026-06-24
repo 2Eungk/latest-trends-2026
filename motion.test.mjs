@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { calibrationSummary, coverModeLabel, coverProofText, coverTemplateHtml, demoCountdownText, demoCountdownPhase, detectionLevel, detectionStatusText, motionAdviceText, motionScore, normalizeSettings, permissionHelpText, roiRectForPreset, sensitivityText, SETTINGS_STORAGE_KEY, tuningTipForPreset, validateExternalUrl, shouldTriggerCover } from './app.js';
+import { calibrationSummary, coverModeLabel, coverProofText, coverTemplateHtml, demoCountdownText, demoCountdownPhase, detectionLevel, detectionStatusText, motionAdviceText, motionScore, normalizeSettings, presetSettings, permissionHelpText, roiRectForPreset, sensitivityText, SETTINGS_STORAGE_KEY, tuningTipForPreset, validateExternalUrl, shouldTriggerCover } from './app.js';
 
 const stillA = new Uint8ClampedArray([10, 10, 10, 255, 20, 20, 20, 255, 30, 30, 30, 255, 40, 40, 40, 255]);
 const stillB = new Uint8ClampedArray(stillA);
@@ -79,6 +79,11 @@ assert.deepEqual(validateExternalUrl('javascript:alert(1)'), { ok: false, messag
 assert.deepEqual(validateExternalUrl('https://'), { ok: false, message: '올바른 URL을 입력하세요' });
 
 assert.equal(SETTINGS_STORAGE_KEY, 'latest-trends-2026-settings-v1');
+assert.deepEqual(presetSettings('quiet-office'), { cover: 'trend', sensitivity: 14, roi: 'full', transitionMode: 'cover' });
+assert.deepEqual(presetSettings('busy-cafe'), { cover: 'stats', sensitivity: 26, roi: 'full', transitionMode: 'cover' });
+assert.deepEqual(presetSettings('back-watch'), { cover: 'github', sensitivity: 20, roi: 'back', transitionMode: 'cover' });
+assert.deepEqual(presetSettings('friend-demo'), { cover: 'github', sensitivity: 16, roi: 'full', transitionMode: 'cover' });
+assert.deepEqual(presetSettings('unknown'), presetSettings('quiet-office'));
 assert.deepEqual(
   normalizeSettings({ cover: 'paper', sensitivity: '24', roi: 'back', autoRestore: false, transitionMode: 'url', externalUrl: 'https://arxiv.org/', urlPreset: 'https://arxiv.org/' }),
   { cover: 'paper', sensitivity: 24, roi: 'back', autoRestore: false, transitionMode: 'url', externalUrl: 'https://arxiv.org/', urlPreset: 'https://arxiv.org/' },

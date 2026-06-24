@@ -59,6 +59,12 @@ assert.match(indexHtml, /5초 캘리브레이션 시작/, 'landing should includ
 assert.match(indexHtml, /추천 감도 적용/, 'landing should include an apply-recommended-threshold action');
 assert.match(indexHtml, /calibrationResult/, 'landing should include a calibration result status region');
 assert.match(indexHtml, /scoreAdvice/, 'score panel should include a visible tuning advice line');
+assert.match(indexHtml, /설정 프리셋/, 'controls should include one-click settings presets');
+assert.match(indexHtml, /조용한 사무실/, 'settings presets should include quiet office');
+assert.match(indexHtml, /카페\/공유오피스/, 'settings presets should include busy cafe/shared office');
+assert.match(indexHtml, /뒤쪽 사람 감지/, 'settings presets should include rear detection');
+assert.match(indexHtml, /친구 데모용/, 'settings presets should include friend demo');
+assert.match(appJs, /presetSettings/, 'preset settings should be centralized');
 assert.match(indexHtml, /안정적 · 그대로 사용해도 좋아요/, 'score advice should start with a safe default');
 assert.match(appJs, /motionAdviceText/, 'motion tuning advice copy should be centralized');
 assert.match(appJs, /기준값을 \+2 올려보세요/, 'motion advice should suggest concrete threshold adjustment');
