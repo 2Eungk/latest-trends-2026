@@ -23,6 +23,12 @@ export function detectionLevel(score, threshold) {
   return { label: '안전', className: 'safe', detail: '조용함 · 전환 안 함' };
 }
 
+export function motionAdviceText(score, threshold) {
+  if (score >= threshold) return '전환 잦음 · 기준값이 낮을 수 있어요';
+  if (score >= threshold * 0.55) return '주의 · 오작동이면 기준값을 +2 올려보세요';
+  return '안정적 · 그대로 사용해도 좋아요';
+}
+
 export function calibrationSummary(samples = []) {
   if (!samples.length) return { average: 0, max: 0, recommended: 16, label: '캘리브레이션 대기' };
   const numeric = samples.map(Number).filter(Number.isFinite);
@@ -336,6 +342,7 @@ function initApp() {
   const motionBadge = document.querySelector('#motionBadge');
   const scoreLabel = document.querySelector('#scoreLabel');
   const scoreDetail = document.querySelector('#scoreDetail');
+  const scoreAdvice = document.querySelector('#scoreAdvice');
   const permissionHelp = document.querySelector('#permissionHelp');
   const tuningTip = document.querySelector('#tuningTip');
   const demoCountdown = document.querySelector('#demoCountdown');
@@ -465,6 +472,7 @@ function initApp() {
       scoreLabel.className = level.className;
       scoreDetail.dataset.score = String(score);
       scoreDetail.textContent = `점수 ${score}% · 기준 ${threshold}% · ${level.detail}`;
+      scoreAdvice.textContent = motionAdviceText(score, threshold);
       if (calibrationActive) {
         calibrationSamples.push(score);
         const elapsed = Date.now() - calibrationStartedAt;
@@ -555,6 +563,7 @@ function initApp() {
     scoreLabel.textContent = level.label;
     scoreLabel.className = level.className;
     scoreDetail.textContent = `점수 ${currentScore}% · 기준 ${threshold}% · ${level.detail}`;
+    scoreAdvice.textContent = motionAdviceText(currentScore, threshold);
     saveSettings();
   });
   roiSelect.addEventListener('change', () => {

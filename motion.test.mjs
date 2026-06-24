@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { calibrationSummary, coverModeLabel, coverProofText, coverTemplateHtml, demoCountdownText, demoCountdownPhase, detectionLevel, detectionStatusText, motionScore, normalizeSettings, permissionHelpText, roiRectForPreset, sensitivityText, SETTINGS_STORAGE_KEY, tuningTipForPreset, validateExternalUrl, shouldTriggerCover } from './app.js';
+import { calibrationSummary, coverModeLabel, coverProofText, coverTemplateHtml, demoCountdownText, demoCountdownPhase, detectionLevel, detectionStatusText, motionAdviceText, motionScore, normalizeSettings, permissionHelpText, roiRectForPreset, sensitivityText, SETTINGS_STORAGE_KEY, tuningTipForPreset, validateExternalUrl, shouldTriggerCover } from './app.js';
 
 const stillA = new Uint8ClampedArray([10, 10, 10, 255, 20, 20, 20, 255, 30, 30, 30, 255, 40, 40, 40, 255]);
 const stillB = new Uint8ClampedArray(stillA);
@@ -15,6 +15,9 @@ assert.equal(sensitivityText(30), '카페/복도 둔감 모드');
 assert.deepEqual(detectionLevel(0, 16), { label: '안전', className: 'safe', detail: '조용함 · 전환 안 함' });
 assert.deepEqual(detectionLevel(10, 16), { label: '주의', className: 'warn', detail: '움직임 있음 · 감도 근접' });
 assert.deepEqual(detectionLevel(16, 16), { label: '전환', className: 'hot', detail: '임계값 도달 · 위장 화면 준비' });
+assert.equal(motionAdviceText(2, 16), '안정적 · 그대로 사용해도 좋아요');
+assert.equal(motionAdviceText(10, 16), '주의 · 오작동이면 기준값을 +2 올려보세요');
+assert.equal(motionAdviceText(18, 16), '전환 잦음 · 기준값이 낮을 수 있어요');
 assert.deepEqual(calibrationSummary([3, 6, 9, 12]), { average: 8, max: 12, recommended: 16, label: '추천 기준값 16%' });
 assert.deepEqual(calibrationSummary([18, 22, 31]), { average: 24, max: 31, recommended: 32, label: '추천 기준값 32%' });
 assert.deepEqual(calibrationSummary([]), { average: 0, max: 0, recommended: 16, label: '캘리브레이션 대기' });

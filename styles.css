@@ -65,6 +65,7 @@ canvas { position: absolute; inset: auto 16px 16px auto; width: 160px; height: 9
 .score-panel strong.warn { color: #ffd27a; }
 .score-panel strong.hot { color: #ff9c9c; }
 .score-panel span { color: #c9d7ea; font-size: 14px; }
+.score-panel em { color: #91c5ff; font-size: 13px; font-style: normal; font-weight: 800; }
 .notes { color: #c8d4e6; line-height: 1.8; }
 .notes h2 { margin: 0 0 10px; }
 .notes h2 + ul { margin-top: 8px; }

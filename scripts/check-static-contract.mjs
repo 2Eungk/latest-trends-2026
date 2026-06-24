@@ -58,6 +58,10 @@ assert.match(indexHtml, /이 브라우저에만 저장됨/, 'landing should expl
 assert.match(indexHtml, /5초 캘리브레이션 시작/, 'landing should include a calibration start action');
 assert.match(indexHtml, /추천 감도 적용/, 'landing should include an apply-recommended-threshold action');
 assert.match(indexHtml, /calibrationResult/, 'landing should include a calibration result status region');
+assert.match(indexHtml, /scoreAdvice/, 'score panel should include a visible tuning advice line');
+assert.match(indexHtml, /안정적 · 그대로 사용해도 좋아요/, 'score advice should start with a safe default');
+assert.match(appJs, /motionAdviceText/, 'motion tuning advice copy should be centralized');
+assert.match(appJs, /기준값을 \+2 올려보세요/, 'motion advice should suggest concrete threshold adjustment');
 assert.match(appJs, /localStorage/, 'app should persist settings in browser localStorage');
 assert.match(appJs, /SETTINGS_STORAGE_KEY/, 'app should use a named settings storage key');
 assert.match(readme, /친구에게 보내는 사용법/, 'README should include friend-beta instructions');
