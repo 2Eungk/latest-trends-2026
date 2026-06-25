@@ -29,6 +29,7 @@ h1 { margin: 0; font-size: clamp(44px, 8vw, 92px); letter-spacing: -0.07em; }
 .primary, .ghost, .scenario-primary { padding: 14px 18px; border-radius: 16px; font-weight: 800; }
 .primary { background: #77ffba; color: #06110c; }
 .ghost { background: rgba(255,255,255,.1); color: #f4f7fb; }
+.ghost:disabled { opacity: .45; cursor: not-allowed; }
 .scenario-primary { display: grid; gap: 3px; min-width: 230px; background: linear-gradient(135deg, #ffdd65, #ff7a90); color: #16080b; box-shadow: 0 16px 45px rgba(255,122,144,.26); transform: translateY(-2px); }
 .scenario-primary span { font-size: 12px; letter-spacing: .02em; opacity: .82; }
 .scenario-primary:disabled { opacity: .72; transform: none; cursor: wait; }
@@ -44,6 +45,10 @@ h1 { margin: 0; font-size: clamp(44px, 8vw, 92px); letter-spacing: -0.07em; }
 .demo-result { margin: 10px 0 0; color: #77ffba; font-weight: 900; min-height: 24px; }
 .share-guide { display: grid; gap: 4px; max-width: 680px; margin-top: 14px; padding: 14px 16px; border-radius: 16px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); color: #c9d7ea; }
 .share-guide strong { color: #91c5ff; }
+.preflight-checklist { max-width: 780px; margin-top: 14px; padding: 14px 16px; border-radius: 16px; background: rgba(119,255,186,.08); border: 1px solid rgba(119,255,186,.18); }
+.preflight-checklist strong { color: #77ffba; }
+.preflight-checklist ol { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0 0; padding: 0; list-style: none; }
+.preflight-checklist li { padding: 10px; border-radius: 12px; background: rgba(255,255,255,.07); color: #dbe7f7; }
 .controls, .monitor-card { margin-top: 18px; display: grid; gap: 18px; border: 1px solid rgba(255,255,255,.1); border-radius: 24px; background: rgba(255,255,255,.055); padding: 22px; }
 .controls { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 label { display: grid; gap: 10px; color: #cfd9e8; }
@@ -162,7 +167,7 @@ th { background: #eef3fb; color: #4a5a72; }
 .code-editor span { display: block; }
 
 @media (max-width: 800px) {
-  .controls, .monitor-card, .metrics, .grid, .sheet-grid, .notion-board, .calendar-layout, .stats-cards, .excel-grid, .calendar-events > div, .first-run-guide ol { grid-template-columns: 1fr; }
+  .controls, .monitor-card, .metrics, .grid, .sheet-grid, .notion-board, .calendar-layout, .stats-cards, .excel-grid, .calendar-events > div, .first-run-guide ol, .preflight-checklist ol { grid-template-columns: 1fr; }
   .hero { padding: 26px; }
   .doc-page, .paper-viewer { padding: 34px 24px; min-height: auto; }
   .github-repo nav { flex-wrap: wrap; }

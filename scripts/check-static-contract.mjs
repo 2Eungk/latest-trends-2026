@@ -24,8 +24,12 @@ assert.match(appJs, /coverTemplateHtml/, 'cover templates should remain internal
 assert.match(indexHtml, /월급 보존 중/, 'landing should include the viral salary-preservation hook');
 assert.match(indexHtml, /팀장 접근 대비/, 'landing should make the boss-detection joke obvious');
 assert.match(indexHtml, /업무 화면 준비 완료/, 'landing should communicate cover-screen readiness');
-assert.match(indexHtml, /주소창 카메라 아이콘/, 'landing should explain how to recover from blocked camera permission');
+assert.match(indexHtml, /카메라 권한 막히면/, 'landing should explain how to recover from blocked camera permission');
 assert.match(indexHtml, /상단\/뒤쪽 배경/, 'landing should guide users toward rear-background tuning');
+assert.match(indexHtml, /실사용 전 체크/, 'landing should include a real-use preflight checklist');
+assert.match(indexHtml, /카메라 권한 허용 확인/, 'preflight should mention camera permission');
+assert.match(indexHtml, /뒤쪽 사람 감지 기준값/, 'preflight should mention rear detection rehearsal');
+assert.match(indexHtml, /비상 전환 테스트로 위장 화면 확인/, 'preflight should mention emergency transition test');
 assert.match(indexHtml, /데모 시나리오 시작/, 'landing should include a showable demo scenario button');
 assert.match(indexHtml, /친구한테 보여줄 땐 이 버튼/, 'landing should make the friend demo action obvious');
 assert.match(indexHtml, /scenario-primary/, 'demo scenario button should have a distinct visual class');
@@ -58,6 +62,22 @@ assert.match(indexHtml, /이 브라우저에만 저장됨/, 'landing should expl
 assert.match(indexHtml, /5초 캘리브레이션 시작/, 'landing should include a calibration start action');
 assert.match(indexHtml, /추천 감도 적용/, 'landing should include an apply-recommended-threshold action');
 assert.match(indexHtml, /calibrationResult/, 'landing should include a calibration result status region');
+assert.match(indexHtml, /보호 중지/, 'landing should include an explicit camera stop action');
+assert.match(indexHtml, /stopButton/, 'camera stop action should have a stable DOM anchor');
+assert.match(indexHtml, /위장 화면 미리보기/, 'landing should include cover preview action');
+assert.match(indexHtml, /previewCoverButton/, 'cover preview action should have stable DOM anchor');
+assert.match(appJs, /cameraStoppedText/, 'camera stop status copy should be centralized');
+assert.match(appJs, /getTracks\(\)\.forEach/, 'camera stop action should stop every active media track');
+assert.match(appJs, /cameraStarting/, 'camera start should guard rapid repeated clicks before permission resolves');
+assert.match(appJs, /startButton\.disabled = true;[\s\S]*getUserMedia/, 'camera start should disable the start button before requesting permission');
+assert.match(appJs, /startButton\.disabled = !cameraSupport\.ok/, 'camera stop/error should preserve unsupported camera preflight disabled state');
+assert.match(appJs, /catch \(error\) \{[\s\S]*activeStream\?\.getTracks\(\)\.forEach/, 'camera start failure after stream acquisition should stop acquired tracks');
+assert.match(appJs, /catch \(error\) \{[\s\S]*activeStream = null;[\s\S]*video\.srcObject = null;[\s\S]*stopButton\.disabled = true/, 'camera start failure should clear stream state and disable stop button');
+assert.match(appJs, /rafId !== null/, 'camera stop should cancel animation frames with a null-safe raf guard');
+assert.doesNotMatch(appJs, /if \(rafId\)/, 'raf cleanup should not use truthiness guards that miss raf id 0');
+assert.match(indexHtml, /cameraSupportStatus/, 'landing should include camera support status region');
+assert.match(appJs, /cameraSupportSummary/, 'camera support copy should be centralized');
+assert.match(appJs, /navigator\.mediaDevices/, 'camera support status should inspect browser mediaDevices support');
 assert.match(indexHtml, /scoreAdvice/, 'score panel should include a visible tuning advice line');
 assert.match(indexHtml, /설정 프리셋/, 'controls should include one-click settings presets');
 assert.match(indexHtml, /조용한 사무실/, 'settings presets should include quiet office');
@@ -85,5 +105,10 @@ assert.match(appJs, /demoCountdownPhase/, 'demo countdown visual phase copy shou
 assert.match(appJs, /countdown-step step-3/, 'demo countdown should expose a visual class for step 3');
 assert.match(appJs, /countdown-step success/, 'demo countdown should expose a success visual class');
 assert.match(appJs, /demoCountdownText/, 'demo countdown copy should be centralized');
+assert.match(appJs, /nextCoverChoice/, 'cover picker should have a deterministic helper');
+assert.match(appJs, /previewCover/, 'cover preview should be handled by a named function');
+const styles = read('styles.css');
+assert.match(styles, /\.preflight-checklist/, 'preflight checklist should have compact styling');
+assert.match(styles, /grid-template-columns:\s*repeat\(3/, 'preflight checklist should use compact 3-column desktop layout');
 
 console.log('static contract checks passed');

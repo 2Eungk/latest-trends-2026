@@ -55,6 +55,22 @@ export function detectionStatusText(state, detail = '') {
   return statuses[state] || statuses.idle;
 }
 
+export function cameraStoppedText() {
+  return '보호 중지 · 카메라 스트림 종료됨';
+}
+
+export function cameraSupportSummary({ hasMediaDevices, hasGetUserMedia, protocol, hostname } = {}) {
+  const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1';
+  const isSecureContext = protocol === 'https:' || isLocalhost;
+  if (!hasMediaDevices || !hasGetUserMedia) {
+    return { ok: false, label: '카메라 API 미지원', detail: '이 브라우저에서는 웹캠 감지를 사용할 수 없어요' };
+  }
+  if (!isSecureContext) {
+    return { ok: false, label: '보안 연결 필요', detail: 'https 또는 localhost에서 카메라 권한을 사용할 수 있어요' };
+  }
+  return { ok: true, label: '카메라 사용 가능', detail: '보호 시작을 누르면 브라우저 권한 요청이 열립니다' };
+}
+
 export function coverModeLabel(state = 'triggered') {
   if (state === 'demo') return '긴급 업무 모드 ON · 생존 성공';
   if (state === 'triggered') return '긴급 업무 모드 ON · 움직임 감지';
@@ -149,6 +165,12 @@ export function presetSettings(id) {
 
 export function friendDemoSettings(current = {}) {
   return normalizeSettings({ ...current, ...presetSettings('friend-demo') });
+}
+
+export function nextCoverChoice(values = [], index = 0) {
+  const safe = values.filter((value) => VALID_COVERS.has(value));
+  if (!safe.length) return DEFAULT_SETTINGS.cover;
+  return safe[Math.abs(Number(index) || 0) % safe.length];
 }
 
 export function normalizeSettings(raw = {}) {
@@ -329,6 +351,8 @@ export function coverTemplateHtml(kind) {
 function initApp() {
   const app = document.querySelector('#app');
   const startButton = document.querySelector('#startButton');
+  const stopButton = document.querySelector('#stopButton');
+  const previewCoverButton = document.querySelector('#previewCoverButton');
   const demoButton = document.querySelector('#demoButton');
   const scenarioDemoButton = document.querySelector('#scenarioDemoButton');
   const quickFriendDemoButton = document.querySelector('#quickFriendDemoButton');
@@ -340,6 +364,7 @@ function initApp() {
   const coverContent = document.querySelector('#coverContent');
   const coverSelect = document.querySelector('#coverSelect');
   const statusEl = document.querySelector('#status');
+  const cameraSupportStatus = document.querySelector('#cameraSupportStatus');
   const sensitivity = document.querySelector('#sensitivity');
   const sensitivityLabel = document.querySelector('#sensitivityLabel');
   const roiSelect = document.querySelector('#roiSelect');
@@ -370,6 +395,8 @@ function initApp() {
   let lastMotionAt = 0;
   let lastTriggerAt = 0;
   let rafId = null;
+  let activeStream = null;
+  let cameraStarting = false;
   let demoRunning = false;
   let calibrationActive = false;
   let calibrationStartedAt = 0;
@@ -377,6 +404,15 @@ function initApp() {
   let lastCalibration = null;
 
   const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  const cameraSupport = cameraSupportSummary({
+    hasMediaDevices: Boolean(navigator.mediaDevices),
+    hasGetUserMedia: Boolean(navigator.mediaDevices?.getUserMedia),
+    protocol: window.location.protocol,
+    hostname: window.location.hostname
+  });
+  cameraSupportStatus.textContent = `${cameraSupport.label} · ${cameraSupport.detail}`;
+  if (!cameraSupport.ok) startButton.disabled = true;
 
   function readFormSettings() {
     return normalizeSettings({
@@ -474,6 +510,11 @@ function initApp() {
     showCover(state);
   }
 
+  function previewCover() {
+    showCover('restored');
+    statusEl.textContent = '위장 화면 미리보기 · 복귀 버튼으로 돌아오기';
+  }
+
   function tick() {
     if (video.readyState >= 2) {
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -516,18 +557,46 @@ function initApp() {
   }
 
   async function startCamera() {
+    if (cameraStarting || activeStream || !cameraSupport.ok) return;
+    cameraStarting = true;
+    startButton.disabled = true;
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: 640 }, audio: false });
+      activeStream = stream;
       video.srcObject = stream;
       await video.play();
       statusEl.textContent = detectionStatusText('armed');
       permissionHelp.textContent = '카메라 연결됨 · 뒤에 한 번 지나가며 점수와 기준값을 맞춰보세요';
-      startButton.disabled = true;
+      stopButton.disabled = false;
       rafId = requestAnimationFrame(tick);
     } catch (error) {
+      activeStream?.getTracks().forEach((track) => track.stop());
+      activeStream = null;
+      video.srcObject = null;
+      stopButton.disabled = true;
       statusEl.textContent = detectionStatusText('camera-error', error.message);
       permissionHelp.textContent = permissionHelpText(error.name);
+      startButton.disabled = !cameraSupport.ok;
+    } finally {
+      cameraStarting = false;
     }
+  }
+
+  function stopCamera() {
+    if (rafId !== null) cancelAnimationFrame(rafId);
+    rafId = null;
+    activeStream?.getTracks().forEach((track) => track.stop());
+    activeStream = null;
+    video.srcObject = null;
+    previousFrame = null;
+    calibrationActive = false;
+    calibrationButton.disabled = false;
+    applyCalibrationButton.disabled = !lastCalibration;
+    startButton.disabled = !cameraSupport.ok;
+    stopButton.disabled = true;
+    statusEl.textContent = cameraStoppedText();
+    permissionHelp.textContent = '카메라가 꺼졌어요 · 다시 쓰려면 보호 시작을 누르세요';
+    motionBadge.textContent = '감지 중지';
   }
 
   async function startDemoScenario() {
@@ -600,6 +669,8 @@ function initApp() {
     saveSettings();
   });
   startButton.addEventListener('click', startCamera);
+  stopButton.addEventListener('click', stopCamera);
+  previewCoverButton.addEventListener('click', previewCover);
   demoButton.addEventListener('click', () => activateCover('demo'));
   scenarioDemoButton.addEventListener('click', startDemoScenario);
   quickFriendDemoButton.addEventListener('click', applyFriendDemoAndStart);
@@ -640,7 +711,7 @@ function initApp() {
   });
 
   window.addEventListener('beforeunload', () => {
-    if (rafId) cancelAnimationFrame(rafId);
+    if (rafId !== null) cancelAnimationFrame(rafId);
   });
 }
 

@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { calibrationSummary, coverModeLabel, coverProofText, coverTemplateHtml, demoCountdownText, demoCountdownPhase, detectionLevel, detectionStatusText, friendDemoSettings, motionAdviceText, motionScore, normalizeSettings, presetSettings, permissionHelpText, roiRectForPreset, sensitivityText, SETTINGS_STORAGE_KEY, tuningTipForPreset, validateExternalUrl, shouldTriggerCover } from './app.js';
+import { calibrationSummary, cameraStoppedText, cameraSupportSummary, coverModeLabel, coverProofText, coverTemplateHtml, demoCountdownText, demoCountdownPhase, detectionLevel, detectionStatusText, friendDemoSettings, motionAdviceText, motionScore, nextCoverChoice, normalizeSettings, presetSettings, permissionHelpText, roiRectForPreset, sensitivityText, SETTINGS_STORAGE_KEY, tuningTipForPreset, validateExternalUrl, shouldTriggerCover } from './app.js';
 
 const stillA = new Uint8ClampedArray([10, 10, 10, 255, 20, 20, 20, 255, 30, 30, 30, 255, 40, 40, 40, 255]);
 const stillB = new Uint8ClampedArray(stillA);
@@ -45,6 +45,23 @@ assert.equal(detectionStatusText('demo'), '비상 전환 테스트 · 업무 리
 assert.equal(detectionStatusText('restored'), '보호 중 · 원래 화면 복귀');
 assert.equal(detectionStatusText('camera-error', 'Permission denied'), '카메라 접근 실패: Permission denied');
 assert.equal(detectionStatusText('unknown'), '대기 중 · 카메라 접근 전');
+assert.equal(cameraStoppedText(), '보호 중지 · 카메라 스트림 종료됨');
+assert.deepEqual(
+  cameraSupportSummary({ hasMediaDevices: true, hasGetUserMedia: true, protocol: 'https:', hostname: '2eungk.github.io' }),
+  { ok: true, label: '카메라 사용 가능', detail: '보호 시작을 누르면 브라우저 권한 요청이 열립니다' }
+);
+assert.deepEqual(
+  cameraSupportSummary({ hasMediaDevices: false, hasGetUserMedia: false, protocol: 'https:', hostname: '2eungk.github.io' }),
+  { ok: false, label: '카메라 API 미지원', detail: '이 브라우저에서는 웹캠 감지를 사용할 수 없어요' }
+);
+assert.deepEqual(
+  cameraSupportSummary({ hasMediaDevices: true, hasGetUserMedia: true, protocol: 'http:', hostname: 'example.com' }),
+  { ok: false, label: '보안 연결 필요', detail: 'https 또는 localhost에서 카메라 권한을 사용할 수 있어요' }
+);
+assert.deepEqual(
+  cameraSupportSummary({ hasMediaDevices: true, hasGetUserMedia: true, protocol: 'http:', hostname: '127.0.0.1' }),
+  { ok: true, label: '카메라 사용 가능', detail: '보호 시작을 누르면 브라우저 권한 요청이 열립니다' }
+);
 assert.equal(coverModeLabel('demo'), '긴급 업무 모드 ON · 생존 성공');
 assert.equal(coverModeLabel('triggered'), '긴급 업무 모드 ON · 움직임 감지');
 assert.equal(coverModeLabel('restored'), '업무 화면 대기');
@@ -84,6 +101,10 @@ assert.deepEqual(presetSettings('busy-cafe'), { cover: 'stats', sensitivity: 26,
 assert.deepEqual(presetSettings('back-watch'), { cover: 'github', sensitivity: 20, roi: 'back', transitionMode: 'cover' });
 assert.deepEqual(presetSettings('friend-demo'), { cover: 'github', sensitivity: 16, roi: 'full', transitionMode: 'cover' });
 assert.deepEqual(presetSettings('unknown'), presetSettings('quiet-office'));
+assert.equal(nextCoverChoice(['trend', 'github'], 0), 'trend');
+assert.equal(nextCoverChoice(['trend', 'github'], 1), 'github');
+assert.equal(nextCoverChoice([], 0), 'trend');
+assert.equal(nextCoverChoice(['bad'], 0), 'trend');
 assert.deepEqual(
   friendDemoSettings({ cover: 'paper', sensitivity: 30, roi: 'back', autoRestore: false, transitionMode: 'url', externalUrl: 'https://arxiv.org/', urlPreset: 'https://arxiv.org/' }),
   { cover: 'github', sensitivity: 16, roi: 'full', autoRestore: false, transitionMode: 'cover', externalUrl: 'https://arxiv.org/', urlPreset: 'https://arxiv.org/' },

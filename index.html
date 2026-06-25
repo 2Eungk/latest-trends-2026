@@ -27,17 +27,28 @@
         </section>
         <div class="hero-actions">
           <button id="startButton" class="primary">보호 시작</button>
+          <button id="stopButton" class="ghost" type="button" disabled>보호 중지</button>
+          <button id="previewCoverButton" class="ghost" type="button">위장 화면 미리보기</button>
           <button id="demoButton" class="ghost">비상 전환 테스트</button>
           <button id="scenarioDemoButton" class="scenario-primary"><span>친구한테 보여줄 땐 이 버튼</span>데모 시나리오 시작</button>
           <button id="restoreButton" class="ghost hidden">원래 화면 복귀</button>
         </div>
         <p id="status" class="status">대기 중 · 카메라 접근 전</p>
+        <p id="cameraSupportStatus" class="status camera-support" role="status" aria-live="polite">카메라 상태 확인 중</p>
         <div id="demoCountdown" class="demo-countdown" role="status" aria-live="polite">데모 시나리오 대기</div>
         <p id="demoResult" class="demo-result" aria-live="polite"></p>
         <div class="share-guide" aria-label="친구/영상 데모 가이드">
           <strong>데모 찍는 법</strong>
           <span>친구에게 보여줄 때는 위장 페이지를 고르고 `데모 시나리오 시작`만 누르면 3초 후 자동 전환됩니다.</span>
         </div>
+        <section class="preflight-checklist" aria-label="실사용 전 체크">
+          <strong>실사용 전 체크</strong>
+          <ol>
+            <li>카메라 권한 허용 확인</li>
+            <li>뒤쪽 사람 감지 기준값 한 번 맞추기</li>
+            <li>비상 전환 테스트로 위장 화면 확인</li>
+          </ol>
+        </section>
       </section>
 
       <section class="controls" aria-label="설정">
