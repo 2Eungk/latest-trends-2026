@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { calibrationSummary, cameraStoppedText, cameraSupportSummary, coverModeLabel, coverProofText, coverTemplateHtml, demoCountdownText, demoCountdownPhase, detectionLevel, detectionStatusText, friendDemoSettings, motionAdviceText, motionScore, nextCoverChoice, normalizeSettings, presetSettings, permissionHelpText, roiRectForPreset, sensitivityText, SETTINGS_STORAGE_KEY, tuningTipForPreset, validateExternalUrl, shouldTriggerCover } from './app.js';
+import { calibrationSummary, cameraStoppedText, cameraSupportSummary, coverModeLabel, coverProofText, coverTemplateHtml, demoCountdownText, demoCountdownPhase, demoIdleState, detectionLevel, detectionStatusText, friendDemoSettings, motionAdviceText, motionScore, nextCoverChoice, normalizeSettings, presetSettings, permissionHelpText, roiRectForPreset, sensitivityText, SETTINGS_STORAGE_KEY, tuningTipForPreset, validateExternalUrl, shouldTriggerCover } from './app.js';
 
 const stillA = new Uint8ClampedArray([10, 10, 10, 255, 20, 20, 20, 255, 30, 30, 30, 255, 40, 40, 40, 255]);
 const stillB = new Uint8ClampedArray(stillA);
@@ -88,6 +88,11 @@ assert.deepEqual(demoCountdownPhase(2), { className: 'countdown-step step-2', la
 assert.deepEqual(demoCountdownPhase(1), { className: 'countdown-step step-1', label: '2026 최신동향 ON' });
 assert.deepEqual(demoCountdownPhase(0), { className: 'countdown-step success', label: '생존 성공' });
 assert.deepEqual(demoCountdownPhase(99), { className: 'countdown-step idle', label: '데모 대기' });
+assert.deepEqual(
+  demoIdleState(),
+  { countdownText: '데모 시나리오 대기', countdownClass: 'countdown-step idle', countdownPhase: 'idle', resultText: '' },
+  'restoring the cover should reset stale demo success copy back to a ready state'
+);
 
 assert.deepEqual(validateExternalUrl('https://github.com/trending'), { ok: true, url: 'https://github.com/trending' });
 assert.deepEqual(validateExternalUrl('  https://arxiv.org/  '), { ok: true, url: 'https://arxiv.org/' });

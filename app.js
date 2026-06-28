@@ -123,6 +123,16 @@ export function demoCountdownPhase(step) {
   return phases[step] || { className: 'countdown-step idle', label: '데모 대기' };
 }
 
+export function demoIdleState() {
+  const idle = demoCountdownPhase(99);
+  return {
+    countdownText: demoCountdownText(99),
+    countdownClass: idle.className,
+    countdownPhase: 'idle',
+    resultText: ''
+  };
+}
+
 export function validateExternalUrl(value) {
   const raw = String(value || '').trim();
   if (!raw.startsWith('https://')) return { ok: false, message: 'https:// 주소만 사용할 수 있어요' };
@@ -479,6 +489,14 @@ function initApp() {
     statusEl.textContent = detectionStatusText(state);
   }
 
+  function resetDemoIdle() {
+    const idle = demoIdleState();
+    demoCountdown.className = idle.countdownClass;
+    demoCountdown.dataset.phase = idle.countdownPhase;
+    demoCountdown.textContent = idle.countdownText;
+    demoResult.textContent = idle.resultText;
+  }
+
   function hideCover() {
     cover.classList.add('hidden');
     app.removeAttribute('aria-hidden');
@@ -489,6 +507,7 @@ function initApp() {
     coverProof.dataset.state = 'restored';
     restoreButton.classList.add('hidden');
     statusEl.textContent = detectionStatusText('restored');
+    resetDemoIdle();
   }
 
   function openExternalUrl() {
