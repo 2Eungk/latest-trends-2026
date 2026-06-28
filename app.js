@@ -113,6 +113,10 @@ export function demoCountdownText(step) {
   return steps[step] || '데모 시나리오 대기';
 }
 
+export function demoSuccessResultText() {
+  return '폰으로 찍을 준비 완료 · 복귀 버튼을 눌러 한 번 더 보여주세요';
+}
+
 export function demoCountdownPhase(step) {
   const phases = {
     3: { className: 'countdown-step step-3', label: '팀장 접근 감지 준비' },
@@ -639,7 +643,7 @@ function initApp() {
     demoCountdown.className = successPhase.className;
     demoCountdown.dataset.phase = '0';
     demoCountdown.textContent = success;
-    demoResult.textContent = success;
+    demoResult.textContent = demoSuccessResultText();
     scenarioDemoButton.disabled = false;
     quickFriendDemoButton.disabled = false;
     demoRunning = false;

@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { calibrationSummary, cameraStoppedText, cameraSupportSummary, coverModeLabel, coverProofText, coverTemplateHtml, demoCountdownText, demoCountdownPhase, demoIdleState, detectionLevel, detectionStatusText, friendDemoSettings, motionAdviceText, motionScore, nextCoverChoice, normalizeSettings, presetSettings, permissionHelpText, roiRectForPreset, sensitivityText, SETTINGS_STORAGE_KEY, tuningTipForPreset, validateExternalUrl, shouldTriggerCover } from './app.js';
+import { calibrationSummary, cameraStoppedText, cameraSupportSummary, coverModeLabel, coverProofText, coverTemplateHtml, demoCountdownText, demoCountdownPhase, demoIdleState, demoSuccessResultText, detectionLevel, detectionStatusText, friendDemoSettings, motionAdviceText, motionScore, nextCoverChoice, normalizeSettings, presetSettings, permissionHelpText, roiRectForPreset, sensitivityText, SETTINGS_STORAGE_KEY, tuningTipForPreset, validateExternalUrl, shouldTriggerCover } from './app.js';
 
 const stillA = new Uint8ClampedArray([10, 10, 10, 255, 20, 20, 20, 255, 30, 30, 30, 255, 40, 40, 40, 255]);
 const stillB = new Uint8ClampedArray(stillA);
@@ -83,6 +83,7 @@ assert.equal(demoCountdownText(2), '2 · 월급 보존 시스템 대기');
 assert.equal(demoCountdownText(1), '1 · 2026 최신동향 전환');
 assert.equal(demoCountdownText(0), '생존 성공 · 업무 화면 전환 완료');
 assert.equal(demoCountdownText(99), '데모 시나리오 대기');
+assert.equal(demoSuccessResultText(), '폰으로 찍을 준비 완료 · 복귀 버튼을 눌러 한 번 더 보여주세요');
 assert.deepEqual(demoCountdownPhase(3), { className: 'countdown-step step-3', label: '팀장 접근 감지 준비' });
 assert.deepEqual(demoCountdownPhase(2), { className: 'countdown-step step-2', label: '월급 보존 시스템 대기' });
 assert.deepEqual(demoCountdownPhase(1), { className: 'countdown-step step-1', label: '2026 최신동향 ON' });
